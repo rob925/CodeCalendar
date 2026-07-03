@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CodeCalendar</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="shader-bg" aria-hidden="true">
+      <div class="shader-layer shader-layer-a"></div>
+      <div class="shader-layer shader-layer-b"></div>
+      <div class="shader-grid"></div>
+    </div>
+
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="CodeCalendar">
+          <span class="brand-mark">CC</span>
+          <span>
+            <strong>CodeCalendar</strong>
+            <small data-i18n="brandTagline">IT events hub</small>
+          </span>
+        </a>
+
+        <div class="toolbar" aria-label="App controls">
+          <div class="segmented" role="group" aria-label="Language">
+            <button class="segment active" type="button" data-lang="ru">RU</button>
+            <button class="segment" type="button" data-lang="en">EN</button>
+          </div>
+          <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+            <span id="themeIcon">☾</span>
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow" data-i18n="eyebrow">Programming event manager</p>
+            <h1 data-i18n="heroTitle">Your calendar for hackathons, olympiads and tech conferences.</h1>
+            <p data-i18n="heroSubtitle">
+              Browse IT events by category, open full details, register in one click and keep your selected events visible in the calendar.
+            </p>
+          </div>
+          <div class="hero-panel" aria-label="Quick stats">
+            <div>
+              <strong id="registeredCount">0</strong>
+              <span data-i18n="registeredLabel">registered</span>
+            </div>
+            <div>
+              <strong id="visibleCount">0</strong>
+              <span data-i18n="visibleLabel">visible events</span>
+            </div>
+            <div>
+              <strong>2026</strong>
+              <span data-i18n="seasonLabel">season</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="control-band" aria-label="Calendar controls">
+          <div class="month-controls">
+            <button class="icon-button" id="prevMonth" type="button" aria-label="Previous month" title="Previous month">‹</button>
+            <div>
+              <p data-i18n="calendarLabel">Calendar</p>
+              <h2 id="monthTitle">July 2026</h2>
+            </div>
+            <button class="icon-button" id="nextMonth" type="button" aria-label="Next month" title="Next month">›</button>
+          </div>
+
+          <div class="filters" id="filters" aria-label="Event categories"></div>
+        </section>
+
+        <section class="workspace">
+          <div class="calendar-wrap">
+            <div class="weekday-row" id="weekdayRow"></div>
+            <div class="calendar-grid" id="calendarGrid" aria-label="Event calendar"></div>
+          </div>
+
+          <aside class="event-list-panel">
+            <div class="panel-heading">
+              <div>
+                <p data-i18n="upcomingLabel">Upcoming</p>
+                <h2 data-i18n="featuredTitle">Selected events</h2>
+              </div>
+              <button class="text-button" id="showRegistered" type="button" data-i18n="myEvents">My events</button>
+            </div>
+            <div class="event-list" id="eventList"></div>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="event-dialog" id="eventDialog">
+      <button class="dialog-close" id="closeDialog" type="button" aria-label="Close">×</button>
+      <div class="dialog-media" id="dialogMedia"></div>
+      <div class="dialog-body">
+        <div class="dialog-meta">
+          <span class="pill" id="dialogCategory"></span>
+          <span id="dialogDate"></span>
+        </div>
+        <h2 id="dialogTitle"></h2>
+        <p id="dialogDescription"></p>
+        <div class="details-grid" id="dialogDetails"></div>
+        <div class="dialog-actions">
+          <a class="primary-link" id="dialogLink" href="#" target="_blank" rel="noreferrer" data-i18n="openEvent">Open event</a>
+          <button class="primary-button" id="registerButton" type="button"></button>
+        </div>
+      </div>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
