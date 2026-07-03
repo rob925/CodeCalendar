@@ -206,6 +206,7 @@ console.log(missing.length ? `Missing translations: ${missing.join(', ')}` : `Al
 - Язык хранится под ключом `cc-lang`.
 - Тема хранится под ключом `cc-theme`.
 - Перед `git push` проверяй `git status --short --branch`; если локальная ветка отстает от `origin/main`, сначала делай `git pull --rebase`, затем повторяй `git push`.
+- Для быстрого сохранения изменений можно запускать `.\save.ps1 "Сообщение коммита"`; скрипт сам делает `git pull --rebase --autostash`, `git add -A`, `git commit` и `git push`.
 - Маркер «сегодня» сейчас жестко задан как `2026-07-03` внутри `renderCalendar()`.
 - Для олимпиад используются источники с `olimpiada.ru`.
 - Для AI-событий используются источники `ai-confa.ru`, `networkly.app`, `aisummit.ru` и страница «Цифрового прорыва».
