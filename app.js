@@ -11,6 +11,11 @@ const translations = {
     calendarLabel: "Календарь",
     upcomingLabel: "Ближайшие",
     featuredTitle: "Подборка событий",
+    newsLabel: "IT-дайджест",
+    newsTitle: "Актуальные новости",
+    newsUpdated: "Обновлено сегодня",
+    newsAutoLabel: "Автообновлено",
+    newsFallbackLabel: "Локальная подборка",
     myEvents: "Мои события",
     openEvent: "Открыть событие",
     register: "Зарегистрироваться",
@@ -33,6 +38,64 @@ const translations = {
       conference: "Конференции",
       workshop: "Воркшопы",
       meetup: "Митапы"
+    },
+    news: {
+      "godot-ai-policy": {
+        title: "Godot ограничивает AI-сгенерированные вклады в код",
+        summary:
+          "Команда движка меняет правила контрибьюта: существенный код должен быть написан человеком, а автономные AI-агенты не допускаются к pull request.",
+        tag: "Open source",
+        source: "Godot Engine"
+      },
+      "claude-science-bionemo": {
+        title: "Claude Science интегрируется с NVIDIA BioNeMo",
+        summary:
+          "Anthropic и NVIDIA продвигают AI-агентов глубже в научные workflow: ставка сделана на воспроизводимость, аудит и инструменты для life sciences.",
+        tag: "AI",
+        source: "AI News"
+      },
+      "ai-cyber-insurance": {
+        title: "Киберстрахование перестраивается под скорость AI-атак",
+        summary:
+          "Страховщики всё чаще оценивают не только защиту, но и способность компаний быстро обнаруживать, изолировать и закрывать уязвимости.",
+        tag: "Security",
+        source: "WSJ Pro"
+      },
+      "ai-chip-supply": {
+        title: "Спрос на AI-инфраструктуру усиливает давление на рынок чипов",
+        summary:
+          "Аналитики предупреждают о возможных узких местах в поставках компонентов для дата-центров, памяти и продвинутой упаковки чипов.",
+        tag: "Hardware",
+        source: "MarketWatch"
+      },
+      "shadow-ai-security": {
+        title: "Shadow AI становится одной из главных слепых зон ИБ-команд",
+        summary:
+          "Новый обзор по кибербезопасности показывает, что почти половина компаний видит лишь часть AI-инструментов, которые сотрудники используют в работе.",
+        tag: "Security",
+        source: "The Hacker News"
+      },
+      "oracle-ebs-flaw": {
+        title: "Критическую уязвимость Oracle E-Business Suite уже эксплуатируют",
+        summary:
+          "Баг в Oracle Payments получил оценку 9.8 CVSS и может привести к захвату уязвимых инсталляций, поэтому обновления лучше не откладывать.",
+        tag: "Vulnerability",
+        source: "The Hacker News"
+      },
+      "techcrunch-disrupt-builders": {
+        title: "TechCrunch раскрыл программу Builders Stage на Disrupt 2026",
+        summary:
+          "На октябрьской конференции в Сан-Франциско основатели и операторы разберут масштабирование продуктов, рост команд и практические стратегии для стартапов.",
+        tag: "Startups",
+        source: "TechCrunch"
+      },
+      "neo-ai-office": {
+        title: "Основатель Neo инвестирует $30 млн в AI-альтернативу офисным пакетам",
+        summary:
+          "Новый продукт строится вокруг идеи, что рабочее ПО эпохи AI нужно проектировать заново, а не просто добавлять чат-бота в старые интерфейсы.",
+        tag: "Enterprise AI",
+        source: "TechCrunch"
+      }
     },
     events: {
       "quantum-hack": {
@@ -315,6 +378,11 @@ const translations = {
     calendarLabel: "Calendar",
     upcomingLabel: "Upcoming",
     featuredTitle: "Selected events",
+    newsLabel: "IT digest",
+    newsTitle: "Fresh tech news",
+    newsUpdated: "Updated today",
+    newsAutoLabel: "Auto-updated",
+    newsFallbackLabel: "Local digest",
     myEvents: "My events",
     openEvent: "Open event",
     register: "Register",
@@ -337,6 +405,64 @@ const translations = {
       conference: "Conferences",
       workshop: "Workshops",
       meetup: "Meetups"
+    },
+    news: {
+      "godot-ai-policy": {
+        title: "Godot tightens rules on AI-authored code contributions",
+        summary:
+          "The engine team is changing contribution policy: substantial code must be human-authored, while autonomous AI agents are blocked from pull requests.",
+        tag: "Open source",
+        source: "Godot Engine"
+      },
+      "claude-science-bionemo": {
+        title: "Claude Science integrates with NVIDIA BioNeMo",
+        summary:
+          "Anthropic and NVIDIA are moving AI agents deeper into scientific workflows, emphasizing reproducibility, audit trails and life-sciences tooling.",
+        tag: "AI",
+        source: "AI News"
+      },
+      "ai-cyber-insurance": {
+        title: "Cyber insurance adapts to the speed of AI-driven attacks",
+        summary:
+          "Insurers are looking beyond prevention and asking how quickly companies can detect, isolate and recover from fast-moving vulnerabilities.",
+        tag: "Security",
+        source: "WSJ Pro"
+      },
+      "ai-chip-supply": {
+        title: "AI infrastructure demand keeps pressure on chip supply",
+        summary:
+          "Analysts warn that data-center components, memory and advanced packaging capacity could become bottlenecks for the AI hardware buildout.",
+        tag: "Hardware",
+        source: "MarketWatch"
+      },
+      "shadow-ai-security": {
+        title: "Shadow AI becomes a major blind spot for security teams",
+        summary:
+          "A new cybersecurity assessment says nearly half of companies have only partial or no visibility into the AI tools employees use at work.",
+        tag: "Security",
+        source: "The Hacker News"
+      },
+      "oracle-ebs-flaw": {
+        title: "Critical Oracle E-Business Suite flaw is being actively exploited",
+        summary:
+          "The Oracle Payments bug is rated 9.8 CVSS and can enable takeover of vulnerable instances, making rapid patching a priority.",
+        tag: "Vulnerability",
+        source: "The Hacker News"
+      },
+      "techcrunch-disrupt-builders": {
+        title: "TechCrunch reveals the Builders Stage agenda for Disrupt 2026",
+        summary:
+          "The October San Francisco event will focus on practical scaling strategy, product growth and operating lessons for founders and startup teams.",
+        tag: "Startups",
+        source: "TechCrunch"
+      },
+      "neo-ai-office": {
+        title: "Neo founder puts $30M into an AI-native office alternative",
+        summary:
+          "The company is betting that workplace software for the AI era should be redesigned from the ground up instead of retrofitted with chatbots.",
+        tag: "Enterprise AI",
+        source: "TechCrunch"
+      }
     },
     events: {
       "quantum-hack": {
@@ -649,6 +775,61 @@ const events = [
   { id: "team-programming-2026", category: "olympiad", date: "2026-12-01", url: "https://olimpiada.ru/activity/4326" }
 ];
 
+const newsItems = [
+  {
+    id: "godot-ai-policy",
+    date: "2026-07-03",
+    color: "#0f766e",
+    url: "https://godotengine.org/article/contribution-policy-2026/"
+  },
+  {
+    id: "claude-science-bionemo",
+    date: "2026-07-02",
+    color: "#2563eb",
+    url: "https://www.artificialintelligence-news.com/news/nvidia-bionemo-accelerates-anthropic-claude-science/"
+  },
+  {
+    id: "ai-cyber-insurance",
+    date: "2026-07-01",
+    color: "#be123c",
+    url: "https://www.wsj.com/pro/cybersecurity/cyber-insurers-focus-on-speed-as-ai-rewrites-security-0983ad61"
+  },
+  {
+    id: "ai-chip-supply",
+    date: "2026-07-01",
+    color: "#c2410c",
+    url: "https://www.marketwatch.com/story/why-its-too-early-to-call-a-top-on-semiconductor-stocks-according-to-these-highly-regarded-analysts-bb1139d4"
+  },
+  {
+    id: "shadow-ai-security",
+    date: "2026-07-01",
+    color: "#7c3aed",
+    url: "https://thehackernews.com/2026/07/2026-cybersecurity-assessment-gap.html"
+  },
+  {
+    id: "oracle-ebs-flaw",
+    date: "2026-06-30",
+    color: "#be123c",
+    url: "https://thehackernews.com/2026/06/oracle-e-business-suite-flaw-cve-2026.html"
+  },
+  {
+    id: "techcrunch-disrupt-builders",
+    date: "2026-07-01",
+    color: "#0f766e",
+    url: "https://techcrunch.com/2026/07/01/builders-stage-agenda-revealed-practical-strategies-for-scaling-startups-at-techcrunch-disrupt-2026/"
+  },
+  {
+    id: "neo-ai-office",
+    date: "2026-07-01",
+    color: "#2563eb",
+    url: "https://techcrunch.com/2026/07/01/indian-tech-tycoon-bets-30m-to-build-an-ai-alternative-to-microsoft-office/"
+  }
+];
+
+const NEWS_REFRESH_INTERVAL = 5 * 60 * 60 * 1000;
+const HN_NEWS_URL = "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=18";
+const newsColors = ["#0f766e", "#2563eb", "#be123c", "#c2410c", "#7c3aed", "#9333ea", "#0e7490", "#a16207"];
+
 const state = {
   lang: localStorage.getItem("cc-lang") || "ru",
   theme: localStorage.getItem("cc-theme") || "light",
@@ -656,7 +837,10 @@ const state = {
   activeCategory: "all",
   registeredOnly: false,
   registered: new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]")),
-  activeEventId: null
+  activeEventId: null,
+  newsItems,
+  newsLastUpdated: null,
+  newsUsesFallback: true
 };
 
 const els = {
@@ -664,6 +848,11 @@ const els = {
   filters: document.getElementById("filters"),
   weekdayRow: document.getElementById("weekdayRow"),
   calendarGrid: document.getElementById("calendarGrid"),
+  calendarColumn: document.querySelector(".calendar-column"),
+  eventListPanel: document.querySelector(".event-list-panel"),
+  newsPanel: document.querySelector(".news-panel"),
+  newsList: document.getElementById("newsList"),
+  newsUpdated: document.querySelector("[data-i18n='newsUpdated']"),
   eventList: document.getElementById("eventList"),
   monthTitle: document.getElementById("monthTitle"),
   registeredCount: document.getElementById("registeredCount"),
@@ -704,6 +893,13 @@ function filteredEvents() {
 
 function formatDate(dateString, options = { day: "numeric", month: "long" }) {
   return new Intl.DateTimeFormat(state.lang === "ru" ? "ru-RU" : "en-US", options).format(new Date(`${dateString}T12:00:00`));
+}
+
+function formatTime(date) {
+  return new Intl.DateTimeFormat(state.lang === "ru" ? "ru-RU" : "en-US", {
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
 }
 
 function dateKey(date) {
@@ -813,10 +1009,177 @@ function renderEventList() {
   });
 }
 
+function renderNews() {
+  if (!els.newsList) return;
+  els.newsUpdated.textContent = state.newsUsesFallback
+    ? t("newsFallbackLabel")
+    : `${t("newsAutoLabel")} ${formatTime(state.newsLastUpdated)}`;
+
+  els.newsList.innerHTML = state.newsItems
+    .map((item) => {
+      const copy = item.live ? item.copy[state.lang] : translations[state.lang].news[item.id];
+      return `
+        <a class="news-card" href="${item.url}" target="_blank" rel="noreferrer" style="--news-color: ${item.color}">
+          <div class="news-meta">
+            <span class="news-tag">${copy.tag}</span>
+            <time datetime="${item.date}">${formatDate(item.date, { day: "numeric", month: "long" })}</time>
+          </div>
+          <h3>${copy.title}</h3>
+          <p>${copy.summary}</p>
+          <span class="news-source">${copy.source}</span>
+        </a>
+      `;
+    })
+    .join("");
+}
+
+function hostnameFromUrl(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "Hacker News";
+  }
+}
+
+function newsTagForTitle(title) {
+  const lowerTitle = title.toLowerCase();
+  if (lowerTitle.includes("ai") || lowerTitle.includes("llm") || lowerTitle.includes("model")) return "AI";
+  if (lowerTitle.includes("security") || lowerTitle.includes("vulnerability") || lowerTitle.includes("breach")) return "Security";
+  if (lowerTitle.includes("open source") || lowerTitle.includes("github")) return "Open source";
+  if (lowerTitle.includes("startup") || lowerTitle.includes("funding")) return "Startups";
+  if (lowerTitle.includes("chip") || lowerTitle.includes("hardware")) return "Hardware";
+  return "Tech";
+}
+
+function liveNewsCopy(title, source) {
+  return {
+    ru: {
+      title,
+      summary: `Свежая история из технологической ленты Hacker News. Источник: ${source}.`,
+      tag: newsTagForTitle(title),
+      source
+    },
+    en: {
+      title,
+      summary: `A fresh story from the Hacker News technology feed. Source: ${source}.`,
+      tag: newsTagForTitle(title),
+      source
+    }
+  };
+}
+
+function mapHackerNewsItems(hits) {
+  const seen = new Set();
+  return hits
+    .map((hit, index) => {
+      const title = hit.title || hit.story_title;
+      const url = hit.url || hit.story_url || `https://news.ycombinator.com/item?id=${hit.objectID}`;
+      if (!title || seen.has(title)) return null;
+      seen.add(title);
+
+      const source = hostnameFromUrl(url);
+      return {
+        id: `hn-${hit.objectID}`,
+        live: true,
+        date: (hit.created_at || new Date().toISOString()).slice(0, 10),
+        color: newsColors[index % newsColors.length],
+        url,
+        copy: liveNewsCopy(title, source)
+      };
+    })
+    .filter(Boolean)
+    .slice(0, 8);
+}
+
+async function refreshNews() {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+  try {
+    const response = await fetch(HN_NEWS_URL, { signal: controller.signal });
+    if (!response.ok) throw new Error(`News request failed: ${response.status}`);
+
+    const data = await response.json();
+    const liveItems = mapHackerNewsItems(data.hits || []);
+    if (liveItems.length < 4) throw new Error("Not enough live news items");
+
+    state.newsItems = liveItems;
+    state.newsLastUpdated = new Date();
+    state.newsUsesFallback = false;
+    renderNews();
+    scheduleLayoutSync();
+  } catch {
+    state.newsItems = newsItems;
+    state.newsUsesFallback = true;
+    renderNews();
+    scheduleLayoutSync();
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 function renderStats() {
   els.registeredCount.textContent = state.registered.size;
   els.visibleCount.textContent = filteredEvents().length;
   els.showRegistered.classList.toggle("active", state.registeredOnly);
+}
+
+let layoutSyncFrame = 0;
+
+function syncEventPanelHeight() {
+  const isDesktop = window.matchMedia("(min-width: 1121px)").matches;
+  const cards = [...els.eventList.querySelectorAll(".event-card")];
+  els.eventList.classList.remove("is-fitted");
+  els.eventList.style.height = "";
+
+  cards.forEach((card) => {
+    card.hidden = false;
+  });
+
+  els.eventListPanel.style.height = "";
+  els.eventListPanel.style.maxHeight = "";
+  els.eventListPanel.style.marginTop = "";
+  if (!isDesktop) return;
+
+  const leftColumnRect = els.calendarColumn.getBoundingClientRect();
+  const panelNaturalRect = els.eventListPanel.getBoundingClientRect();
+  const targetHeight = Math.max(0, Math.round(leftColumnRect.bottom - panelNaturalRect.top));
+
+  els.eventListPanel.style.height = `${targetHeight}px`;
+  els.eventListPanel.style.maxHeight = `${targetHeight}px`;
+
+  const panelRect = els.eventListPanel.getBoundingClientRect();
+  const listRect = els.eventList.getBoundingClientRect();
+  const newsCards = [...els.newsList.querySelectorAll(".news-card")];
+  const lastNewsCard = newsCards.at(-1);
+  const targetListBottom = lastNewsCard ? lastNewsCard.getBoundingClientRect().bottom : panelRect.bottom - 16;
+  const listHeight = Math.max(0, targetListBottom - listRect.top);
+  els.eventList.style.height = `${listHeight}px`;
+
+  const panelBottom = targetListBottom;
+  let shouldHideRest = false;
+
+  cards.forEach((card) => {
+    if (shouldHideRest || card.getBoundingClientRect().bottom > panelBottom) {
+      card.hidden = true;
+      shouldHideRest = true;
+    }
+  });
+
+  els.eventList.classList.add("is-fitted");
+}
+
+function scheduleLayoutSync() {
+  if (layoutSyncFrame) {
+    cancelAnimationFrame(layoutSyncFrame);
+  }
+
+  layoutSyncFrame = requestAnimationFrame(() => {
+    layoutSyncFrame = requestAnimationFrame(() => {
+      layoutSyncFrame = 0;
+      syncEventPanelHeight();
+    });
+  });
 }
 
 function renderTheme() {
@@ -830,8 +1193,10 @@ function render() {
   renderFilters();
   renderWeekdays();
   renderCalendar();
+  renderNews();
   renderEventList();
   renderStats();
+  scheduleLayoutSync();
 }
 
 function openEvent(id) {
@@ -874,16 +1239,19 @@ function toggleRegistration() {
   renderCalendar();
   renderEventList();
   renderStats();
+  scheduleLayoutSync();
 }
 
 document.getElementById("prevMonth").addEventListener("click", () => {
   state.month.setMonth(state.month.getMonth() - 1);
   renderCalendar();
+  scheduleLayoutSync();
 });
 
 document.getElementById("nextMonth").addEventListener("click", () => {
   state.month.setMonth(state.month.getMonth() + 1);
   renderCalendar();
+  scheduleLayoutSync();
 });
 
 els.filters.addEventListener("click", (event) => {
@@ -894,6 +1262,7 @@ els.filters.addEventListener("click", (event) => {
   renderCalendar();
   renderEventList();
   renderStats();
+  scheduleLayoutSync();
 });
 
 document.querySelectorAll("[data-lang]").forEach((button) => {
@@ -909,6 +1278,7 @@ els.themeToggle.addEventListener("click", () => {
   state.theme = state.theme === "dark" ? "light" : "dark";
   localStorage.setItem("cc-theme", state.theme);
   renderTheme();
+  scheduleLayoutSync();
 });
 
 els.showRegistered.addEventListener("click", () => {
@@ -916,6 +1286,7 @@ els.showRegistered.addEventListener("click", () => {
   renderEventList();
   renderCalendar();
   renderStats();
+  scheduleLayoutSync();
 });
 
 document.getElementById("closeDialog").addEventListener("click", () => els.dialog.close());
@@ -923,5 +1294,19 @@ els.dialog.addEventListener("click", (event) => {
   if (event.target === els.dialog) els.dialog.close();
 });
 els.registerButton.addEventListener("click", toggleRegistration);
+window.addEventListener("resize", scheduleLayoutSync);
+window.addEventListener("load", scheduleLayoutSync);
+
+if (document.fonts?.ready) {
+  document.fonts.ready.then(scheduleLayoutSync);
+}
+
+if ("ResizeObserver" in window) {
+  const layoutObserver = new ResizeObserver(scheduleLayoutSync);
+  layoutObserver.observe(els.calendarColumn);
+  layoutObserver.observe(els.newsList);
+}
 
 render();
+refreshNews();
+setInterval(refreshNews, NEWS_REFRESH_INTERVAL);

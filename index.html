@@ -79,9 +79,22 @@
         </section>
 
         <section class="workspace">
-          <div class="calendar-wrap">
-            <div class="weekday-row" id="weekdayRow"></div>
-            <div class="calendar-grid" id="calendarGrid" aria-label="Event calendar"></div>
+          <div class="calendar-column">
+            <div class="calendar-wrap">
+              <div class="weekday-row" id="weekdayRow"></div>
+              <div class="calendar-grid" id="calendarGrid" aria-label="Event calendar"></div>
+            </div>
+
+            <section class="news-panel" aria-labelledby="newsTitle">
+              <div class="news-heading">
+                <div>
+                  <p data-i18n="newsLabel">IT digest</p>
+                  <h2 id="newsTitle" data-i18n="newsTitle">Fresh tech news</h2>
+                </div>
+                <span data-i18n="newsUpdated">Updated today</span>
+              </div>
+              <div class="news-list" id="newsList"></div>
+            </section>
           </div>
 
           <aside class="event-list-panel">
