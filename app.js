@@ -446,6 +446,60 @@ const translations = {
         location: "Россия",
         deadline: "1 декабря"
       },
+      "vsosh-info-school-2026": {
+        title: "ВсОШ по информатике: школьный этап",
+        description:
+          "Первый массовый этап Всероссийской олимпиады школьников по информатике и программированию; участвовать могут все желающие школьники.",
+        format: "Школьный этап",
+        level: "5-11 классы",
+        location: "Россия / школа",
+        deadline: "1 ноября"
+      },
+      "vsosh-info-sirius-2026": {
+        title: "ВсОШ по информатике: этап на платформе «Сириус»",
+        description:
+          "Онлайн-формат школьного этапа на платформе «Сириус» для регионов, где этап проводится централизованно.",
+        format: "Онлайн",
+        level: "5-11 классы",
+        location: "Сириус / онлайн",
+        deadline: "24 октября"
+      },
+      "vsosh-info-municipal-2026": {
+        title: "ВсОШ по информатике: муниципальный этап",
+        description:
+          "Второй этап олимпиады для школьников, прошедших школьный этап; задачи становятся ближе к олимпиадному программированию.",
+        format: "Муниципальный этап",
+        level: "7-11 классы",
+        location: "Россия",
+        deadline: "25 декабря"
+      },
+      "vsosh-info-regional-2027": {
+        title: "ВсОШ по информатике: региональный этап",
+        description:
+          "Региональный этап для сильнейших участников муниципального этапа; обычно проводится в несколько туров.",
+        format: "Региональный этап",
+        level: "9-11 классы",
+        location: "Россия",
+        deadline: "19 января"
+      },
+      "vsosh-info-final-2027": {
+        title: "ВсОШ по информатике: заключительный этап",
+        description:
+          "Финальный этап Всероссийской олимпиады школьников по информатике, где соревнуются сильнейшие участники из регионов.",
+        format: "Финал",
+        level: "9-11 классы",
+        location: "Россия",
+        deadline: "28 марта"
+      },
+      "vsosh-programming-invitational-2027": {
+        title: "ВсОШ: пригласительный этап «Программирование»",
+        description:
+          "Пригласительный этап по профилю «Программирование» для школьников, которые хотят попробовать формат ВсОШ заранее.",
+        format: "Онлайн / пригласительный",
+        level: "Школьники",
+        location: "Россия / онлайн",
+        deadline: "19 мая"
+      },
       "ipho-2026": {
         title: "International Physics Olympiad 2026",
         description:
@@ -456,58 +510,103 @@ const translations = {
         deadline: "4 июля"
       },
       "iop-photonic-metasurfaces": {
-        title: "Photonic Metasurfaces for Quantum Applications",
+        title: "Всероссийская олимпиада по физике",
         description:
-          "Однодневная встреча Institute of Physics о фотонных метаповерхностях, квантовой оптике и прикладных квантовых устройствах.",
-        format: "Офлайн",
-        level: "Research",
-        location: "Лондон",
-        deadline: "6 июля"
+          "Главная российская олимпиадная траектория по физике: школьный, муниципальный, региональный и заключительный этапы.",
+        format: "Школьный этап + финалы",
+        level: "7-11 классы",
+        location: "Россия / Сириус",
+        deadline: "10 сентября"
       },
       "superconductivity-school-2026": {
-        title: "9th Superconductivity Summer School",
+        title: "Интернет-олимпиада школьников по физике",
         description:
-          "Летняя школа по сверхпроводимости: теория, материалы, измерения и разговоры с исследователями из академии и индустрии.",
-        format: "Очно",
-        level: "Студенты / PhD",
-        location: "Оксфорд",
-        deadline: "6 июля"
+          "Заочная олимпиада с виртуальными лабораториями: отбор проходит онлайн, а задания моделируют физический эксперимент.",
+        format: "Онлайн + финал",
+        level: "7-11 классы",
+        location: "Россия / онлайн",
+        deadline: "1 ноября"
       },
       "synergy-for-science-2026": {
-        title: "Synergy for Science",
+        title: "Олимпиада школьников «Физтех» по физике",
         description:
-          "Крупное научное событие в Глазго с треками по физике, инженерии, исследовательской инфраструктуре и коммуникации науки.",
-        format: "Офлайн",
-        level: "All levels",
-        location: "Глазго",
-        deadline: "12 июля"
+          "Сильная олимпиада МФТИ для школьников: заочный отбор и заключительный этап для участников, прошедших квалификацию.",
+        format: "Заочно + финал",
+        level: "8-11 классы",
+        location: "Россия / онлайн",
+        deadline: "20 сентября"
       },
       "ictp-cosmology-school": {
-        title: "ICTP Summer School on Cosmology",
+        title: "Олимпиада «Росатом» по физике",
         description:
-          "Школа ICTP по космологии, астрофизике частиц и современным инструментам теоретической физики.",
-        format: "Очно",
-        level: "Graduate+",
-        location: "Триест",
-        deadline: "10 июля"
+          "Физико-математическая олимпиада для 7-11 классов: несколько отборочных туров и финал на площадках в регионах.",
+        format: "Дистанционный отбор + финал",
+        level: "7-11 классы",
+        location: "Россия / онлайн",
+        deadline: "25 сентября"
       },
       "nanoscience-surfaces-school": {
-        title: "Nanoscience and Surfaces Summer School",
+        title: "Олимпиада Курчатов по физике",
         description:
-          "Летняя школа о нанонауке, поверхностях, материалах и экспериментальных методах современной физики конденсированного состояния.",
-        format: "Офлайн",
-        level: "Student+",
-        location: "Великобритания",
-        deadline: "20 июля"
+          "Олимпиада по физике с электронным отборочным этапом и финалом для школьников, которые хотят решать сильные задачи.",
+        format: "Онлайн-отбор + финал",
+        level: "7-11 классы",
+        location: "Россия / онлайн",
+        deadline: "1 октября"
       },
       "phystec-workshop-2026": {
-        title: "PhysTEC Workshop 2026",
+        title: "Олимпиада СПбГУ по физике",
         description:
-          "Воркшоп для преподавателей и организаторов программ подготовки учителей физики: практики, исследования и обмен опытом.",
-        format: "Офлайн",
-        level: "Educators",
-        location: "Вашингтон, D.C.",
-        deadline: "7 августа"
+          "Олимпиада Санкт-Петербургского государственного университета по физике: заочный отбор и заключительный этап.",
+        format: "Заочно + очно",
+        level: "7-11 классы",
+        location: "Россия / Санкт-Петербург",
+        deadline: "25 октября"
+      },
+      "moscow-physics-2026": {
+        title: "Московская олимпиада по физике",
+        description:
+          "Одна из ключевых российских олимпиад по физике для школьников с сильными теоретическими и экспериментальными задачами.",
+        format: "Отбор + финал",
+        level: "7-11 классы",
+        location: "Москва / Россия",
+        deadline: "5 ноября"
+      },
+      "city-open-physics-2026": {
+        title: "Городская открытая олимпиада по физике",
+        description:
+          "Олимпиада для школьников, которые хотят проверить себя в задачах городского уровня и подготовиться к более крупным этапам.",
+        format: "Отбор + финал",
+        level: "7-11 классы",
+        location: "Россия",
+        deadline: "10 ноября"
+      },
+      "maxwell-physics-2026": {
+        title: "Олимпиада по физике имени Дж. Кл. Максвелла",
+        description:
+          "Олимпиада для младших классов олимпиадной физики: региональный этап и дистанционный учебно-отборочный курс Сириуса.",
+        format: "Дистанционный курс + этап",
+        level: "7-8 классы",
+        location: "Россия / Сириус",
+        deadline: "1 декабря"
+      },
+      "open-physics-2026": {
+        title: "Открытая олимпиада школьников по физике",
+        description:
+          "Открытая олимпиада по физике для школьников с заочным отбором и очным финалом.",
+        format: "Заочно + финал",
+        level: "7-11 классы",
+        location: "Россия / онлайн",
+        deadline: "15 ноября"
+      },
+      "sirius-physics-program-2026": {
+        title: "Сириус: программы по физике",
+        description:
+          "Подборка образовательных программ и онлайн-курсов центра «Сириус» для школьников, которые готовятся к физике и олимпиадам.",
+        format: "Онлайн / образовательная программа",
+        level: "7-11 классы",
+        location: "Сириус / онлайн",
+        deadline: "3 сентября"
       },
       "lhc-ls3-briefing": {
         title: "LHC Long Shutdown 3 Briefing",
@@ -528,13 +627,13 @@ const translations = {
         deadline: "10 июля"
       },
       "siam-annual-2026": {
-        title: "SIAM Annual Meeting 2026",
+        title: "Всероссийская олимпиада по математике",
         description:
-          "Ежегодная встреча SIAM по прикладной математике, вычислениям, моделированию и междисциплинарным исследованиям.",
-        format: "Офлайн",
-        level: "Student+",
-        location: "Кливленд",
-        deadline: "6 июля"
+          "Главная российская школьная олимпиада по математике: школьный, муниципальный, региональный и заключительный этапы.",
+        format: "Школьный этап + финалы",
+        level: "4-11 классы",
+        location: "Россия / Сириус",
+        deadline: "10 сентября"
       },
       "icm-2026": {
         title: "International Congress of Mathematicians",
@@ -546,49 +645,85 @@ const translations = {
         deadline: "22 июля"
       },
       "maa-mathfest-2026": {
-        title: "MAA MathFest 2026",
+        title: "Московская математическая олимпиада",
         description:
-          "Большая летняя встреча Mathematical Association of America: доклады, сессии, обучение и события для студентов и преподавателей.",
-        format: "Офлайн",
-        level: "All levels",
-        location: "Бостон",
-        deadline: "5 августа"
+          "Классическая сильная олимпиада по математике: для 8-10 классов открытая регистрация, для 11 классов предусмотрен отбор.",
+        format: "Регистрация + туры",
+        level: "8-11 классы",
+        location: "Москва",
+        deadline: "15 октября"
       },
       "ipmc-2026": {
-        title: "International Pure Mathematics Conference",
+        title: "Турнир городов",
         description:
-          "Конференция по чистой математике с докладами по алгебре, анализу, геометрии и смежным исследовательским темам.",
-        format: "Очно",
-        level: "Research",
-        location: "Исламабад",
-        deadline: "29 августа"
-      },
-      "ams-sectional-kennesaw": {
-        title: "AMS Southeastern Sectional Meeting",
-        description:
-          "Осенняя секционная встреча AMS: специальные сессии, исследовательские доклады и нетворкинг математиков региона.",
-        format: "Офлайн",
-        level: "Research",
-        location: "Кеннесо, Джорджия",
-        deadline: "10 октября"
-      },
-      "lms-calendar-autumn": {
-        title: "London Mathematical Society Calendar",
-        description:
-          "Подборка осенних математических семинаров, конференций и школ из календаря LMS для планирования исследовательского сезона.",
-        format: "Смешанный",
-        level: "All levels",
-        location: "Великобритания / онлайн",
+          "Международная математическая олимпиада с осенним и весенним турами; можно выбрать базовый или сложный вариант.",
+        format: "Очно / городские площадки",
+        level: "8-11 классы",
+        location: "Россия и другие города",
         deadline: "15 сентября"
       },
-      "ioqm-2026": {
-        title: "IOQM 2026",
+      "ams-sectional-kennesaw": {
+        title: "Открытая олимпиада школьников по математике",
         description:
-          "Индийский квалификационный этап математической олимпиады: первый шаг отбора школьников к международной программе.",
-        format: "Очно",
-        level: "School",
-        location: "Индия",
-        deadline: "1 сентября"
+          "Открытая олимпиада школьников Университета ИТМО по математике для 5-11 классов.",
+        format: "Отбор + финал",
+        level: "5-11 классы",
+        location: "Россия / онлайн",
+        deadline: "1 декабря"
+      },
+      "lms-calendar-autumn": {
+        title: "Олимпиада Курчатов по математике",
+        description:
+          "Олимпиада по математике с электронным отборочным этапом и финалом для школьников 6-11 классов.",
+        format: "Онлайн-отбор + финал",
+        level: "6-11 классы",
+        location: "Россия / онлайн",
+        deadline: "1 октября"
+      },
+      "ioqm-2026": {
+        title: "Олимпиада «Росатом» по математике",
+        description:
+          "Физико-математическая олимпиада с несколькими отборочными турами, включая дистанционный, и заключительным этапом.",
+        format: "Дистанционный отбор + финал",
+        level: "7-11 классы",
+        location: "Россия / онлайн",
+        deadline: "20 сентября"
+      },
+      "bibn-math-2026": {
+        title: "БИБН по математике",
+        description:
+          "Олимпиада «Будущие исследователи - будущее науки» по математике для школьников 7-11 классов.",
+        format: "Отбор + финал",
+        level: "7-11 классы",
+        location: "Россия",
+        deadline: "1 ноября"
+      },
+      "path-success-math-2026": {
+        title: "«Путь к успеху» по математике",
+        description:
+          "Многопрофильная олимпиада школьников с математическим направлением для 10-11 классов.",
+        format: "Отбор + финал",
+        level: "10-11 классы",
+        location: "Россия",
+        deadline: "10 ноября"
+      },
+      "spb-math-2026": {
+        title: "Санкт-Петербургская олимпиада школьников по математике",
+        description:
+          "Региональная математическая олимпиада с сильными задачами для школьников, ориентированных на олимпиадную траекторию.",
+        format: "Отбор + финал",
+        level: "6-11 классы",
+        location: "Санкт-Петербург / Россия",
+        deadline: "5 декабря"
+      },
+      "sirius-math-program-2026": {
+        title: "Сириус: программы по математике",
+        description:
+          "Онлайн-курсы и образовательные программы центра «Сириус» для школьников, готовящихся к математическим олимпиадам.",
+        format: "Онлайн / образовательная программа",
+        level: "7-11 классы",
+        location: "Сириус / онлайн",
+        deadline: "1 октября"
       }
     },
     months: [
@@ -1053,6 +1188,60 @@ const translations = {
         location: "Russia",
         deadline: "December 1"
       },
+      "vsosh-info-school-2026": {
+        title: "Russian Informatics Olympiad: School Round",
+        description:
+          "The first mass round of the Russian National School Olympiad in informatics and programming, open to interested school students.",
+        format: "School round",
+        level: "Grades 5-11",
+        location: "Russia / school",
+        deadline: "November 1"
+      },
+      "vsosh-info-sirius-2026": {
+        title: "Russian Informatics Olympiad: Sirius Platform Round",
+        description:
+          "An online school-round format on the Sirius platform for regions that run the round centrally.",
+        format: "Online",
+        level: "Grades 5-11",
+        location: "Sirius / online",
+        deadline: "October 24"
+      },
+      "vsosh-info-municipal-2026": {
+        title: "Russian Informatics Olympiad: Municipal Round",
+        description:
+          "The second round for students who passed the school stage, with tasks closer to competitive programming.",
+        format: "Municipal round",
+        level: "Grades 7-11",
+        location: "Russia",
+        deadline: "December 25"
+      },
+      "vsosh-info-regional-2027": {
+        title: "Russian Informatics Olympiad: Regional Round",
+        description:
+          "The regional round for top municipal-stage participants, usually held across several contest days.",
+        format: "Regional round",
+        level: "Grades 9-11",
+        location: "Russia",
+        deadline: "January 19"
+      },
+      "vsosh-info-final-2027": {
+        title: "Russian Informatics Olympiad: Final Round",
+        description:
+          "The national final of the Russian school informatics olympiad, gathering the strongest regional qualifiers.",
+        format: "Final",
+        level: "Grades 9-11",
+        location: "Russia",
+        deadline: "March 28"
+      },
+      "vsosh-programming-invitational-2027": {
+        title: "Russian Olympiad: Programming Invitational",
+        description:
+          "An invitational programming-profile round for students who want to try the national olympiad format early.",
+        format: "Online / invitational",
+        level: "School students",
+        location: "Russia / online",
+        deadline: "May 19"
+      },
       "ipho-2026": {
         title: "International Physics Olympiad 2026",
         description:
@@ -1063,58 +1252,103 @@ const translations = {
         deadline: "July 4"
       },
       "iop-photonic-metasurfaces": {
-        title: "Photonic Metasurfaces for Quantum Applications",
+        title: "Russian National Physics Olympiad",
         description:
-          "A one-day Institute of Physics meeting on photonic metasurfaces, quantum optics and applied quantum devices.",
-        format: "Offline",
-        level: "Research",
-        location: "London",
-        deadline: "July 6"
+          "Russia's main school physics olympiad track, from school and municipal rounds to regional and national finals.",
+        format: "School round + finals",
+        level: "Grades 7-11",
+        location: "Russia / Sirius",
+        deadline: "September 10"
       },
       "superconductivity-school-2026": {
-        title: "9th Superconductivity Summer School",
+        title: "Internet Physics Olympiad",
         description:
-          "A summer school on superconductivity: theory, materials, measurements and conversations with academic and industry researchers.",
-        format: "Onsite",
-        level: "Students / PhD",
-        location: "Oxford",
-        deadline: "July 6"
+          "A remote physics olympiad with virtual laboratories and tasks designed around experimental modelling.",
+        format: "Online + final",
+        level: "Grades 7-11",
+        location: "Russia / online",
+        deadline: "November 1"
       },
       "synergy-for-science-2026": {
-        title: "Synergy for Science",
+        title: "Phystech Physics Olympiad",
         description:
-          "A major science event in Glasgow with tracks across physics, engineering, research infrastructure and science communication.",
-        format: "Offline",
-        level: "All levels",
-        location: "Glasgow",
-        deadline: "July 12"
+          "A strong MIPT olympiad for school students, with remote qualification and a final round for selected participants.",
+        format: "Remote qualification + final",
+        level: "Grades 8-11",
+        location: "Russia / online",
+        deadline: "September 20"
       },
       "ictp-cosmology-school": {
-        title: "ICTP Summer School on Cosmology",
+        title: "Rosatom Physics Olympiad",
         description:
-          "An ICTP school on cosmology, astroparticle physics and modern tools of theoretical physics.",
-        format: "Onsite",
-        level: "Graduate+",
-        location: "Trieste",
-        deadline: "July 10"
+          "A physics and mathematics olympiad for grades 7-11, with several qualification rounds and finals across Russian venues.",
+        format: "Remote qualification + final",
+        level: "Grades 7-11",
+        location: "Russia / online",
+        deadline: "September 25"
       },
       "nanoscience-surfaces-school": {
-        title: "Nanoscience and Surfaces Summer School",
+        title: "Kurchatov Physics Olympiad",
         description:
-          "A summer school on nanoscience, surfaces, materials and experimental methods in modern condensed-matter physics.",
-        format: "Offline",
-        level: "Student+",
-        location: "United Kingdom",
-        deadline: "July 20"
+          "A physics olympiad with an electronic qualification round and finals for students ready for advanced problems.",
+        format: "Online qualification + final",
+        level: "Grades 7-11",
+        location: "Russia / online",
+        deadline: "October 1"
       },
       "phystec-workshop-2026": {
-        title: "PhysTEC Workshop 2026",
+        title: "SPbU Physics Olympiad",
         description:
-          "A workshop for physics teacher educators and program leaders, focused on practice, research and community exchange.",
-        format: "Offline",
-        level: "Educators",
-        location: "Washington, D.C.",
-        deadline: "August 7"
+          "Saint Petersburg State University olympiad in physics, with remote qualification and a final round.",
+        format: "Remote + onsite",
+        level: "Grades 7-11",
+        location: "Russia / Saint Petersburg",
+        deadline: "October 25"
+      },
+      "moscow-physics-2026": {
+        title: "Moscow Physics Olympiad",
+        description:
+          "One of Russia's key school physics contests, known for strong theoretical and experimental problems.",
+        format: "Qualification + final",
+        level: "Grades 7-11",
+        location: "Moscow / Russia",
+        deadline: "November 5"
+      },
+      "city-open-physics-2026": {
+        title: "City Open Physics Olympiad",
+        description:
+          "A school physics olympiad for students preparing for larger regional and national contest tracks.",
+        format: "Qualification + final",
+        level: "Grades 7-11",
+        location: "Russia",
+        deadline: "November 10"
+      },
+      "maxwell-physics-2026": {
+        title: "J. C. Maxwell Physics Olympiad",
+        description:
+          "An olympiad for younger physics contestants, connected with the Sirius remote training and selection path.",
+        format: "Remote course + round",
+        level: "Grades 7-8",
+        location: "Russia / Sirius",
+        deadline: "December 1"
+      },
+      "open-physics-2026": {
+        title: "Open School Physics Olympiad",
+        description:
+          "An open physics olympiad for school students with remote qualification and a final round.",
+        format: "Remote + final",
+        level: "Grades 7-11",
+        location: "Russia / online",
+        deadline: "November 15"
+      },
+      "sirius-physics-program-2026": {
+        title: "Sirius Physics Programs",
+        description:
+          "Online courses and educational programs from Sirius for students preparing for physics olympiads.",
+        format: "Online / educational program",
+        level: "Grades 7-11",
+        location: "Sirius / online",
+        deadline: "September 3"
       },
       "lhc-ls3-briefing": {
         title: "LHC Long Shutdown 3 Briefing",
@@ -1135,13 +1369,13 @@ const translations = {
         deadline: "July 10"
       },
       "siam-annual-2026": {
-        title: "SIAM Annual Meeting 2026",
+        title: "Russian National Mathematics Olympiad",
         description:
-          "SIAM's annual meeting for applied mathematics, computation, modelling and interdisciplinary research.",
-        format: "Offline",
-        level: "Student+",
-        location: "Cleveland",
-        deadline: "July 6"
+          "Russia's main school mathematics olympiad, running from school rounds to municipal, regional and national finals.",
+        format: "School round + finals",
+        level: "Grades 4-11",
+        location: "Russia / Sirius",
+        deadline: "September 10"
       },
       "icm-2026": {
         title: "International Congress of Mathematicians",
@@ -1153,49 +1387,85 @@ const translations = {
         deadline: "July 22"
       },
       "maa-mathfest-2026": {
-        title: "MAA MathFest 2026",
+        title: "Moscow Mathematical Olympiad",
         description:
-          "The Mathematical Association of America's large summer meeting, with talks, sessions, learning programs and student events.",
-        format: "Offline",
-        level: "All levels",
-        location: "Boston",
-        deadline: "August 5"
+          "A classic strong mathematics olympiad: open registration for grades 8-10 and qualification for grade 11.",
+        format: "Registration + rounds",
+        level: "Grades 8-11",
+        location: "Moscow",
+        deadline: "October 15"
       },
       "ipmc-2026": {
-        title: "International Pure Mathematics Conference",
+        title: "Tournament of Towns",
         description:
-          "A pure mathematics conference with talks across algebra, analysis, geometry and related research areas.",
-        format: "Onsite",
-        level: "Research",
-        location: "Islamabad",
-        deadline: "August 29"
-      },
-      "ams-sectional-kennesaw": {
-        title: "AMS Southeastern Sectional Meeting",
-        description:
-          "An AMS fall sectional meeting with special sessions, research talks and networking for the regional mathematics community.",
-        format: "Offline",
-        level: "Research",
-        location: "Kennesaw, Georgia",
-        deadline: "October 10"
-      },
-      "lms-calendar-autumn": {
-        title: "London Mathematical Society Calendar",
-        description:
-          "A planning entry for autumn mathematics seminars, conferences and schools from the LMS calendar.",
-        format: "Mixed",
-        level: "All levels",
-        location: "UK / online",
+          "An international mathematical olympiad held twice a year, with basic and advanced versions of the contest.",
+        format: "Onsite / city venues",
+        level: "Grades 8-11",
+        location: "Russia and other cities",
         deadline: "September 15"
       },
-      "ioqm-2026": {
-        title: "IOQM 2026",
+      "ams-sectional-kennesaw": {
+        title: "Open School Mathematics Olympiad",
         description:
-          "India's mathematical olympiad qualifier, the first step for school students entering the international olympiad pathway.",
-        format: "Onsite",
-        level: "School",
-        location: "India",
-        deadline: "September 1"
+          "ITMO University's open mathematics olympiad for school students in grades 5-11.",
+        format: "Qualification + final",
+        level: "Grades 5-11",
+        location: "Russia / online",
+        deadline: "December 1"
+      },
+      "lms-calendar-autumn": {
+        title: "Kurchatov Mathematics Olympiad",
+        description:
+          "A mathematics olympiad with an electronic qualification round and finals for students in grades 6-11.",
+        format: "Online qualification + final",
+        level: "Grades 6-11",
+        location: "Russia / online",
+        deadline: "October 1"
+      },
+      "ioqm-2026": {
+        title: "Rosatom Mathematics Olympiad",
+        description:
+          "A physics and mathematics olympiad with several qualification rounds, including a remote round, and a final stage.",
+        format: "Remote qualification + final",
+        level: "Grades 7-11",
+        location: "Russia / online",
+        deadline: "September 20"
+      },
+      "bibn-math-2026": {
+        title: "Future Researchers in Mathematics",
+        description:
+          "The mathematics track of the 'Future Researchers - Future Science' olympiad for grades 7-11.",
+        format: "Qualification + final",
+        level: "Grades 7-11",
+        location: "Russia",
+        deadline: "November 1"
+      },
+      "path-success-math-2026": {
+        title: "Path to Success in Mathematics",
+        description:
+          "A multidisciplinary school olympiad with a mathematics track for grades 10-11.",
+        format: "Qualification + final",
+        level: "Grades 10-11",
+        location: "Russia",
+        deadline: "November 10"
+      },
+      "spb-math-2026": {
+        title: "Saint Petersburg School Mathematics Olympiad",
+        description:
+          "A regional mathematics olympiad with strong problems for students following an olympiad track.",
+        format: "Qualification + final",
+        level: "Grades 6-11",
+        location: "Saint Petersburg / Russia",
+        deadline: "December 5"
+      },
+      "sirius-math-program-2026": {
+        title: "Sirius Mathematics Programs",
+        description:
+          "Online courses and educational programs from Sirius for students preparing for mathematics olympiads.",
+        format: "Online / educational program",
+        level: "Grades 7-11",
+        location: "Sirius / online",
+        deadline: "October 1"
       }
     },
     months: [
@@ -1265,33 +1535,48 @@ const eventsBySubject = {
   { id: "nto-2026", category: "olympiad", date: "2026-08-31", url: "https://olimpiada.ru/activity/5369" },
   { id: "gorod-it-2026", category: "conference", date: "2026-09-12", url: "https://gorod.it/" },
   { id: "lct-moscow-2026", category: "hackathon", date: "2026-09-15", url: "https://i.moscow/lct" },
+  { id: "vsosh-info-school-2026", category: "olympiad", date: "2026-09-01", url: "https://olimpiada.ru/activity/73" },
   { id: "belchonok-info-2026", category: "olympiad", date: "2026-10-01", url: "https://olimpiada.ru/activity/398" },
   { id: "mos-inf-2026", category: "olympiad", date: "2026-10-05", url: "https://mos-inf.olimpiada.ru/" },
   { id: "ai-summit-2026", category: "ai", date: "2026-10-07", url: "https://aisummit.ru/" },
+  { id: "vsosh-info-sirius-2026", category: "olympiad", date: "2026-10-20", url: "https://olimpiada.ru/activity/73/events/120" },
   { id: "spbu-engineering-2026", category: "olympiad", date: "2026-10-25", url: "https://olimpiada.ru/activity/5345" },
+  { id: "vsosh-info-municipal-2026", category: "olympiad", date: "2026-11-02", url: "https://olimpiada.ru/activity/73/events/120" },
   { id: "innopolis-open-info-2026", category: "olympiad", date: "2026-11-01", url: "https://olimpiada.ru/activity/5283" },
   { id: "open-programming-2026", category: "olympiad", date: "2026-11-19", url: "https://olimpiada.ru/activity/23" },
-    { id: "team-programming-2026", category: "olympiad", date: "2026-12-01", url: "https://olimpiada.ru/activity/4326" }
+  { id: "team-programming-2026", category: "olympiad", date: "2026-12-01", url: "https://olimpiada.ru/activity/4326" },
+  { id: "vsosh-info-regional-2027", category: "olympiad", date: "2027-01-17", url: "https://olimpiada.ru/activity/73/events/120" },
+  { id: "vsosh-info-final-2027", category: "olympiad", date: "2027-03-22", url: "https://olimpiada.ru/activity/73/events/120" },
+  { id: "vsosh-programming-invitational-2027", category: "olympiad", date: "2027-05-18", url: "https://olimpiada.ru/activity/73/events/120" }
   ],
   physics: [
     { id: "ipho-2026", category: "olympiad", date: "2026-07-04", url: "https://www.ipho-new.org/" },
-    { id: "iop-photonic-metasurfaces", category: "workshop", date: "2026-07-06", url: "https://www.iop.org/physics-community/iop-conferences" },
-    { id: "superconductivity-school-2026", category: "school", date: "2026-07-06", url: "https://www.iop.org/physics-community/iop-conferences" },
-    { id: "ictp-cosmology-school", category: "school", date: "2026-07-10", url: "https://www.ictp.it/home/scientific-calendar" },
-    { id: "synergy-for-science-2026", category: "conference", date: "2026-07-12", url: "https://www.iop.org/physics-community/iop-conferences" },
-    { id: "nanoscience-surfaces-school", category: "school", date: "2026-07-20", url: "https://www.iop.org/physics-community/iop-conferences" },
-    { id: "phystec-workshop-2026", category: "workshop", date: "2026-08-07", url: "https://phystec.org/events/" },
+    { id: "sirius-physics-program-2026", category: "school", date: "2026-09-03", url: "https://olimpiada.ru/activity/5321/news" },
+    { id: "iop-photonic-metasurfaces", category: "olympiad", date: "2026-09-10", url: "https://olimpiada.ru/activity/74" },
+    { id: "synergy-for-science-2026", category: "olympiad", date: "2026-09-20", url: "https://olimpiada.ru/activity/394" },
+    { id: "ictp-cosmology-school", category: "olympiad", date: "2026-09-25", url: "https://olimpiada.ru/activity/412" },
+    { id: "nanoscience-surfaces-school", category: "olympiad", date: "2026-10-01", url: "https://olimpiada.ru/activity/388" },
+    { id: "phystec-workshop-2026", category: "olympiad", date: "2026-10-25", url: "https://olimpiada.ru/activity/444" },
+    { id: "superconductivity-school-2026", category: "olympiad", date: "2026-11-01", url: "https://olimpiada.ru/activity/57" },
+    { id: "moscow-physics-2026", category: "olympiad", date: "2026-11-05", url: "https://olimpiada.ru/activity/108" },
+    { id: "city-open-physics-2026", category: "olympiad", date: "2026-11-10", url: "https://olimpiada.ru/activity/241" },
+    { id: "open-physics-2026", category: "olympiad", date: "2026-11-15", url: "https://olimpiada.ru/activity/5809" },
+    { id: "maxwell-physics-2026", category: "olympiad", date: "2026-12-01", url: "https://olimpiada.ru/activity/254" },
     { id: "lhc-ls3-briefing", category: "research", date: "2026-08-15", url: "https://home.cern/science/accelerators/large-hadron-collider/" }
   ],
   math: [
-    { id: "siam-annual-2026", category: "conference", date: "2026-07-06", url: "https://www.siam.org/conferences-events/" },
     { id: "imo-2026", category: "olympiad", date: "2026-07-10", url: "https://www.imo-official.org/editions/2026/" },
     { id: "icm-2026", category: "congress", date: "2026-07-22", url: "https://www.ams.org/meetings/international/international-index" },
-    { id: "maa-mathfest-2026", category: "conference", date: "2026-08-05", url: "https://maa.org/event/mathfest/" },
-    { id: "ipmc-2026", category: "conference", date: "2026-08-29", url: "https://www.ams.org/calendar/mathcalendar.pl" },
-    { id: "ioqm-2026", category: "contest", date: "2026-09-01", url: "https://ioqm.mtai.org.in/" },
-    { id: "lms-calendar-autumn", category: "seminar", date: "2026-09-15", url: "https://www.lms.ac.uk/events/calendar" },
-    { id: "ams-sectional-kennesaw", category: "conference", date: "2026-10-10", url: "https://www.ams.org/meetings/sectional/2339_program.html" }
+    { id: "siam-annual-2026", category: "olympiad", date: "2026-09-10", url: "https://olimpiada.ru/activity/72" },
+    { id: "ipmc-2026", category: "contest", date: "2026-09-15", url: "https://olimpiada.ru/activity/5" },
+    { id: "ioqm-2026", category: "olympiad", date: "2026-09-20", url: "https://olimpiada.ru/activity/411" },
+    { id: "sirius-math-program-2026", category: "school", date: "2026-10-01", url: "https://olimpiada.ru/activity/5321/news" },
+    { id: "lms-calendar-autumn", category: "olympiad", date: "2026-10-01", url: "https://olimpiada.ru/activity/389" },
+    { id: "maa-mathfest-2026", category: "olympiad", date: "2026-10-15", url: "https://olimpiada.ru/activity/1" },
+    { id: "bibn-math-2026", category: "olympiad", date: "2026-11-01", url: "https://olimpiada.ru/activity/360" },
+    { id: "path-success-math-2026", category: "olympiad", date: "2026-11-10", url: "https://olimpiada.ru/activity/5706" },
+    { id: "ams-sectional-kennesaw", category: "olympiad", date: "2026-12-01", url: "https://olimpiada.ru/activity/121" },
+    { id: "spb-math-2026", category: "olympiad", date: "2026-12-05", url: "https://olimpiada.ru/activity/246" }
   ]
 };
 
@@ -1483,7 +1768,7 @@ function renderStaticText() {
   document.querySelectorAll("[data-lang]").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === state.lang);
   });
-  document.querySelectorAll("[data-subject]").forEach((button) => {
+  els.subjectSwitcher.querySelectorAll("[data-subject]").forEach((button) => {
     button.textContent = t(`subjects.${button.dataset.subject}`);
     button.classList.toggle("active", button.dataset.subject === state.subject);
   });

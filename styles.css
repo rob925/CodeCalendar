@@ -34,11 +34,11 @@ body[data-subject="physics"] {
 }
 
 body[data-subject="math"] {
-  --bg: #f7f5f2;
-  --accent: #0891b2;
-  --accent-2: #f97316;
-  --accent-3: #0e7490;
-  --shadow: 0 24px 70px rgba(57, 72, 88, 0.15);
+  --bg: #f3f8f7;
+  --accent: #0e9fbc;
+  --accent-2: #ff6b35;
+  --accent-3: #2563eb;
+  --shadow: 0 24px 70px rgba(31, 94, 111, 0.18);
 }
 
 body[data-theme="dark"][data-subject="physics"] {
@@ -131,9 +131,10 @@ body[data-subject="physics"] .shader-bg {
 
 body[data-subject="math"] .shader-bg {
   background:
-    radial-gradient(circle at 15% 18%, rgba(103, 232, 249, 0.31), transparent 32%),
-    radial-gradient(circle at 84% 15%, rgba(251, 146, 60, 0.24), transparent 29%),
-    radial-gradient(circle at 58% 82%, rgba(14, 116, 144, 0.2), transparent 36%),
+    radial-gradient(circle at 14% 18%, rgba(45, 212, 191, 0.58), transparent 30%),
+    radial-gradient(circle at 82% 16%, rgba(255, 107, 53, 0.42), transparent 31%),
+    radial-gradient(circle at 50% 82%, rgba(37, 99, 235, 0.2), transparent 34%),
+    linear-gradient(115deg, rgba(8, 145, 178, 0.2), rgba(255, 255, 255, 0.3) 42%, rgba(255, 107, 53, 0.16)),
     var(--bg);
 }
 
@@ -147,9 +148,9 @@ body[data-theme="dark"][data-subject="physics"] .shader-bg {
 
 body[data-theme="dark"][data-subject="math"] .shader-bg {
   background:
-    radial-gradient(circle at 15% 18%, rgba(103, 232, 249, 0.2), transparent 32%),
-    radial-gradient(circle at 82% 13%, rgba(251, 146, 60, 0.18), transparent 31%),
-    radial-gradient(circle at 58% 82%, rgba(249, 168, 212, 0.14), transparent 38%),
+    radial-gradient(circle at 15% 18%, rgba(45, 212, 191, 0.28), transparent 32%),
+    radial-gradient(circle at 82% 13%, rgba(255, 107, 53, 0.26), transparent 31%),
+    radial-gradient(circle at 58% 82%, rgba(96, 165, 250, 0.16), transparent 38%),
     linear-gradient(180deg, #3c2b3d 0%, #302634 55%, #243141 100%);
 }
 
@@ -179,8 +180,9 @@ body[data-subject="physics"] .shader-layer-a {
 
 body[data-subject="math"] .shader-layer-a {
   background:
-    conic-gradient(from 130deg at 35% 45%, transparent 0 18%, rgba(8, 145, 178, 0.58), transparent 42% 58%, rgba(249, 115, 22, 0.48), transparent 76%),
-    linear-gradient(135deg, rgba(244, 114, 182, 0.16), transparent 45%);
+    conic-gradient(from 135deg at 36% 44%, transparent 0 13%, rgba(8, 145, 178, 0.8), transparent 36% 52%, rgba(255, 107, 53, 0.74), transparent 72%),
+    repeating-linear-gradient(118deg, rgba(8, 145, 178, 0.13) 0 1px, transparent 1px 28px),
+    linear-gradient(135deg, rgba(45, 212, 191, 0.28), transparent 45%);
 }
 
 .shader-layer-b {
@@ -199,8 +201,18 @@ body[data-subject="physics"] .shader-layer-b {
 
 body[data-subject="math"] .shader-layer-b {
   background:
-    repeating-radial-gradient(circle at 70% 35%, rgba(255, 255, 255, 0.2) 0 2px, transparent 2px 13px),
-    linear-gradient(90deg, rgba(103, 232, 249, 0.18), rgba(251, 146, 60, 0.14), rgba(14, 116, 144, 0.14));
+    repeating-radial-gradient(circle at 72% 35%, rgba(255, 255, 255, 0.28) 0 2px, transparent 2px 13px),
+    repeating-linear-gradient(28deg, rgba(255, 107, 53, 0.1) 0 1px, transparent 1px 34px),
+    linear-gradient(90deg, rgba(45, 212, 191, 0.26), rgba(255, 107, 53, 0.2), rgba(37, 99, 235, 0.13));
+}
+
+body[data-subject="math"] .shader-grid {
+  background-image:
+    linear-gradient(rgba(8, 145, 178, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 107, 53, 0.16) 1px, transparent 1px),
+    repeating-linear-gradient(135deg, transparent 0 38px, rgba(8, 145, 178, 0.1) 38px 39px);
+  background-size: 34px 34px, 34px 34px, 96px 96px;
+  opacity: 0.54;
 }
 
 .shader-grid {
