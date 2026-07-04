@@ -24,6 +24,40 @@ const translations = {
     empty: "Нет событий для выбранных фильтров.",
     all: "Все",
     registeredOnly: "Показаны только мои события",
+    subjects: {
+      it: "IT",
+      physics: "Физика",
+      math: "Математика"
+    },
+    subjectContent: {
+      it: {
+        brandTagline: "центр IT-событий",
+        eyebrow: "Менеджер событий по программированию",
+        heroTitle: "Найди IT-событие, которое двигает тебя дальше.",
+        heroSubtitle:
+          "Смотри IT-события по категориям, открывай подробности, регистрируйся в один клик и держи выбранные события на виду.",
+        newsLabel: "IT-дайджест",
+        newsTitle: "Актуальные новости"
+      },
+      physics: {
+        brandTagline: "центр научных событий",
+        eyebrow: "Календарь физики",
+        heroTitle: "Следи за физикой: от олимпиад до больших коллайдеров.",
+        heroSubtitle:
+          "Собирай конференции, школы, лекции и соревнования по физике в одном календаре: частицы, космос, квантовые технологии и материалы.",
+        newsLabel: "Физический дайджест",
+        newsTitle: "Новости физики"
+      },
+      math: {
+        brandTagline: "центр математических событий",
+        eyebrow: "Календарь математики",
+        heroTitle: "Держи рядом математику: олимпиады, конгрессы и школы.",
+        heroSubtitle:
+          "Отбирай математические события по формату и теме, открывай детали и сохраняй важные даты: от IMO до исследовательских конференций.",
+        newsLabel: "Математический дайджест",
+        newsTitle: "Новости математики"
+      }
+    },
     details: {
       format: "Формат",
       level: "Уровень",
@@ -37,7 +71,13 @@ const translations = {
       ai: "AI",
       conference: "Конференции",
       workshop: "Воркшопы",
-      meetup: "Митапы"
+      meetup: "Митапы",
+      school: "Школы",
+      lecture: "Лекции",
+      research: "Исследования",
+      congress: "Конгрессы",
+      seminar: "Семинары",
+      contest: "Соревнования"
     },
     news: {
       "godot-ai-policy": {
@@ -95,6 +135,62 @@ const translations = {
           "Новый продукт строится вокруг идеи, что рабочее ПО эпохи AI нужно проектировать заново, а не просто добавлять чат-бота в старые интерфейсы.",
         tag: "Enterprise AI",
         source: "TechCrunch"
+      },
+      "lhc-long-shutdown": {
+        title: "CERN переводит LHC в долгую модернизацию",
+        summary:
+          "Большой адронный коллайдер уходит в Long Shutdown 3: установка High-Luminosity LHC должна резко увеличить объём столкновений после перезапуска.",
+        tag: "Particle physics",
+        source: "CERN"
+      },
+      "xi-cc-plus": {
+        title: "LHCb сообщил о новом тяжёлом барионе",
+        summary:
+          "Наблюдение частицы Ξcc+ помогает точнее проверять, как сильное взаимодействие работает внутри систем с двумя тяжёлыми кварками.",
+        tag: "CERN",
+        source: "ScienceDaily"
+      },
+      "nasa-spherex-first-light": {
+        title: "SPHEREx начинает инфракрасную карту неба",
+        summary:
+          "Космическая обсерватория NASA готовит спектральный обзор всего неба, который поможет изучать происхождение галактик, льда и органики.",
+        tag: "Space",
+        source: "NASA"
+      },
+      "quantum-materials-2026": {
+        title: "Квантовые материалы остаются одной из главных тем летних школ",
+        summary:
+          "Конференции и школы 2026 года заметно смещаются к сверхпроводимости, фотонике и материалам для квантовых вычислений.",
+        tag: "Quantum",
+        source: "Institute of Physics"
+      },
+      "arxiv-spinout": {
+        title: "arXiv становится независимой некоммерческой организацией",
+        summary:
+          "Платформа препринтов выходит из структуры Cornell University, сохраняя научную миссию и получая поддержку Simons Foundation и Schmidt Sciences.",
+        tag: "Research",
+        source: "arXiv"
+      },
+      "ai-erdos-unit-distance": {
+        title: "AI помог продвинуть задачу Эрдёша о единичных расстояниях",
+        summary:
+          "Новая конструкция изменила ожидания вокруг классической геометрической проблемы и снова подняла вопрос о роли AI в математических открытиях.",
+        tag: "AI + math",
+        source: "The Guardian"
+      },
+      "imo-record-2026": {
+        title: "IMO 2026 ждёт рекордное число участников",
+        summary:
+          "Организаторы сообщили о 119 странах и 685 участниках на Международной математической олимпиаде в Шанхае.",
+        tag: "Olympiad",
+        source: "IMO"
+      },
+      "icm-2026-philadelphia": {
+        title: "ICM 2026 возвращает главный математический конгресс в США",
+        summary:
+          "Международный конгресс математиков пройдёт в Филадельфии и станет центральной точкой года для исследовательского сообщества.",
+        tag: "Congress",
+        source: "AMS"
       }
     },
     events: {
@@ -349,6 +445,150 @@ const translations = {
         level: "7-11 классы",
         location: "Россия",
         deadline: "1 декабря"
+      },
+      "ipho-2026": {
+        title: "International Physics Olympiad 2026",
+        description:
+          "Международная олимпиада по физике для школьных сборных: экспериментальный и теоретический туры в Колумбии.",
+        format: "Очно",
+        level: "Школьные сборные",
+        location: "Букараманга, Колумбия",
+        deadline: "4 июля"
+      },
+      "iop-photonic-metasurfaces": {
+        title: "Photonic Metasurfaces for Quantum Applications",
+        description:
+          "Однодневная встреча Institute of Physics о фотонных метаповерхностях, квантовой оптике и прикладных квантовых устройствах.",
+        format: "Офлайн",
+        level: "Research",
+        location: "Лондон",
+        deadline: "6 июля"
+      },
+      "superconductivity-school-2026": {
+        title: "9th Superconductivity Summer School",
+        description:
+          "Летняя школа по сверхпроводимости: теория, материалы, измерения и разговоры с исследователями из академии и индустрии.",
+        format: "Очно",
+        level: "Студенты / PhD",
+        location: "Оксфорд",
+        deadline: "6 июля"
+      },
+      "synergy-for-science-2026": {
+        title: "Synergy for Science",
+        description:
+          "Крупное научное событие в Глазго с треками по физике, инженерии, исследовательской инфраструктуре и коммуникации науки.",
+        format: "Офлайн",
+        level: "All levels",
+        location: "Глазго",
+        deadline: "12 июля"
+      },
+      "ictp-cosmology-school": {
+        title: "ICTP Summer School on Cosmology",
+        description:
+          "Школа ICTP по космологии, астрофизике частиц и современным инструментам теоретической физики.",
+        format: "Очно",
+        level: "Graduate+",
+        location: "Триест",
+        deadline: "10 июля"
+      },
+      "nanoscience-surfaces-school": {
+        title: "Nanoscience and Surfaces Summer School",
+        description:
+          "Летняя школа о нанонауке, поверхностях, материалах и экспериментальных методах современной физики конденсированного состояния.",
+        format: "Офлайн",
+        level: "Student+",
+        location: "Великобритания",
+        deadline: "20 июля"
+      },
+      "phystec-workshop-2026": {
+        title: "PhysTEC Workshop 2026",
+        description:
+          "Воркшоп для преподавателей и организаторов программ подготовки учителей физики: практики, исследования и обмен опытом.",
+        format: "Офлайн",
+        level: "Educators",
+        location: "Вашингтон, D.C.",
+        deadline: "7 августа"
+      },
+      "lhc-ls3-briefing": {
+        title: "LHC Long Shutdown 3 Briefing",
+        description:
+          "Ориентир по главной истории года в физике частиц: переход LHC к модернизации High-Luminosity LHC и анализ данных Run 3.",
+        format: "Онлайн",
+        level: "All levels",
+        location: "CERN / онлайн",
+        deadline: "15 августа"
+      },
+      "imo-2026": {
+        title: "International Mathematical Olympiad 2026",
+        description:
+          "67-я Международная математическая олимпиада в Шанхае: главная мировая площадка для школьных сборных по математике.",
+        format: "Очно",
+        level: "Школьные сборные",
+        location: "Шанхай",
+        deadline: "10 июля"
+      },
+      "siam-annual-2026": {
+        title: "SIAM Annual Meeting 2026",
+        description:
+          "Ежегодная встреча SIAM по прикладной математике, вычислениям, моделированию и междисциплинарным исследованиям.",
+        format: "Офлайн",
+        level: "Student+",
+        location: "Кливленд",
+        deadline: "6 июля"
+      },
+      "icm-2026": {
+        title: "International Congress of Mathematicians",
+        description:
+          "Главный математический конгресс четырёхлетия: пленарные доклады, премии, секции и встречи исследовательского сообщества.",
+        format: "Очно",
+        level: "Research",
+        location: "Филадельфия",
+        deadline: "22 июля"
+      },
+      "maa-mathfest-2026": {
+        title: "MAA MathFest 2026",
+        description:
+          "Большая летняя встреча Mathematical Association of America: доклады, сессии, обучение и события для студентов и преподавателей.",
+        format: "Офлайн",
+        level: "All levels",
+        location: "Бостон",
+        deadline: "5 августа"
+      },
+      "ipmc-2026": {
+        title: "International Pure Mathematics Conference",
+        description:
+          "Конференция по чистой математике с докладами по алгебре, анализу, геометрии и смежным исследовательским темам.",
+        format: "Очно",
+        level: "Research",
+        location: "Исламабад",
+        deadline: "29 августа"
+      },
+      "ams-sectional-kennesaw": {
+        title: "AMS Southeastern Sectional Meeting",
+        description:
+          "Осенняя секционная встреча AMS: специальные сессии, исследовательские доклады и нетворкинг математиков региона.",
+        format: "Офлайн",
+        level: "Research",
+        location: "Кеннесо, Джорджия",
+        deadline: "10 октября"
+      },
+      "lms-calendar-autumn": {
+        title: "London Mathematical Society Calendar",
+        description:
+          "Подборка осенних математических семинаров, конференций и школ из календаря LMS для планирования исследовательского сезона.",
+        format: "Смешанный",
+        level: "All levels",
+        location: "Великобритания / онлайн",
+        deadline: "15 сентября"
+      },
+      "ioqm-2026": {
+        title: "IOQM 2026",
+        description:
+          "Индийский квалификационный этап математической олимпиады: первый шаг отбора школьников к международной программе.",
+        format: "Очно",
+        level: "School",
+        location: "Индия",
+        deadline: "1 сентября"
       }
     },
     months: [
@@ -391,6 +631,40 @@ const translations = {
     empty: "No events match the selected filters.",
     all: "All",
     registeredOnly: "Showing your events only",
+    subjects: {
+      it: "IT",
+      physics: "Physics",
+      math: "Math"
+    },
+    subjectContent: {
+      it: {
+        brandTagline: "IT events hub",
+        eyebrow: "Programming event manager",
+        heroTitle: "Find the tech event that moves you forward.",
+        heroSubtitle:
+          "Browse IT events by category, open full details, register in one click and keep your selected events visible in the calendar.",
+        newsLabel: "IT digest",
+        newsTitle: "Fresh tech news"
+      },
+      physics: {
+        brandTagline: "science events hub",
+        eyebrow: "Physics calendar",
+        heroTitle: "Track physics from olympiads to big colliders.",
+        heroSubtitle:
+          "Collect physics conferences, schools, lectures and competitions in one calendar: particles, space, quantum technology and materials.",
+        newsLabel: "Physics digest",
+        newsTitle: "Physics news"
+      },
+      math: {
+        brandTagline: "mathematics events hub",
+        eyebrow: "Mathematics calendar",
+        heroTitle: "Keep mathematics close: olympiads, congresses and schools.",
+        heroSubtitle:
+          "Filter mathematical events by format and topic, open details and save important dates from the IMO to research conferences.",
+        newsLabel: "Math digest",
+        newsTitle: "Mathematics news"
+      }
+    },
     details: {
       format: "Format",
       level: "Level",
@@ -404,7 +678,13 @@ const translations = {
       ai: "AI",
       conference: "Conferences",
       workshop: "Workshops",
-      meetup: "Meetups"
+      meetup: "Meetups",
+      school: "Schools",
+      lecture: "Lectures",
+      research: "Research",
+      congress: "Congresses",
+      seminar: "Seminars",
+      contest: "Contests"
     },
     news: {
       "godot-ai-policy": {
@@ -462,6 +742,62 @@ const translations = {
           "The company is betting that workplace software for the AI era should be redesigned from the ground up instead of retrofitted with chatbots.",
         tag: "Enterprise AI",
         source: "TechCrunch"
+      },
+      "lhc-long-shutdown": {
+        title: "CERN moves the LHC into its long upgrade",
+        summary:
+          "The Large Hadron Collider is entering Long Shutdown 3, preparing the High-Luminosity LHC for a much larger collision dataset after restart.",
+        tag: "Particle physics",
+        source: "CERN"
+      },
+      "xi-cc-plus": {
+        title: "LHCb reports a new heavy baryon",
+        summary:
+          "The Ξcc+ observation gives physicists another way to test how the strong force behaves inside systems with two heavy quarks.",
+        tag: "CERN",
+        source: "ScienceDaily"
+      },
+      "nasa-spherex-first-light": {
+        title: "SPHEREx begins its infrared map of the sky",
+        summary:
+          "NASA's space observatory is preparing an all-sky spectral survey to study the origins of galaxies, ice and organic material.",
+        tag: "Space",
+        source: "NASA"
+      },
+      "quantum-materials-2026": {
+        title: "Quantum materials lead the summer-school circuit",
+        summary:
+          "Physics meetings and schools in 2026 lean strongly into superconductivity, photonics and materials for quantum computing.",
+        tag: "Quantum",
+        source: "Institute of Physics"
+      },
+      "arxiv-spinout": {
+        title: "arXiv becomes an independent nonprofit",
+        summary:
+          "The preprint platform is spinning out of Cornell University while keeping its scientific mission and gaining support from Simons Foundation and Schmidt Sciences.",
+        tag: "Research",
+        source: "arXiv"
+      },
+      "ai-erdos-unit-distance": {
+        title: "AI advances Erdős' unit-distance problem",
+        summary:
+          "A new construction changed expectations around a classic geometry problem and renewed discussion of AI's role in mathematical discovery.",
+        tag: "AI + math",
+        source: "The Guardian"
+      },
+      "imo-record-2026": {
+        title: "IMO 2026 expects record participation",
+        summary:
+          "Organizers report 119 countries and 685 contestants for the International Mathematical Olympiad in Shanghai.",
+        tag: "Olympiad",
+        source: "IMO"
+      },
+      "icm-2026-philadelphia": {
+        title: "ICM 2026 brings mathematics' flagship congress to the US",
+        summary:
+          "The International Congress of Mathematicians will take place in Philadelphia and anchor the research community's calendar.",
+        tag: "Congress",
+        source: "AMS"
       }
     },
     events: {
@@ -716,6 +1052,150 @@ const translations = {
         level: "Grades 7-11",
         location: "Russia",
         deadline: "December 1"
+      },
+      "ipho-2026": {
+        title: "International Physics Olympiad 2026",
+        description:
+          "The international physics olympiad for school national teams, with theoretical and experimental rounds in Colombia.",
+        format: "Onsite",
+        level: "School teams",
+        location: "Bucaramanga, Colombia",
+        deadline: "July 4"
+      },
+      "iop-photonic-metasurfaces": {
+        title: "Photonic Metasurfaces for Quantum Applications",
+        description:
+          "A one-day Institute of Physics meeting on photonic metasurfaces, quantum optics and applied quantum devices.",
+        format: "Offline",
+        level: "Research",
+        location: "London",
+        deadline: "July 6"
+      },
+      "superconductivity-school-2026": {
+        title: "9th Superconductivity Summer School",
+        description:
+          "A summer school on superconductivity: theory, materials, measurements and conversations with academic and industry researchers.",
+        format: "Onsite",
+        level: "Students / PhD",
+        location: "Oxford",
+        deadline: "July 6"
+      },
+      "synergy-for-science-2026": {
+        title: "Synergy for Science",
+        description:
+          "A major science event in Glasgow with tracks across physics, engineering, research infrastructure and science communication.",
+        format: "Offline",
+        level: "All levels",
+        location: "Glasgow",
+        deadline: "July 12"
+      },
+      "ictp-cosmology-school": {
+        title: "ICTP Summer School on Cosmology",
+        description:
+          "An ICTP school on cosmology, astroparticle physics and modern tools of theoretical physics.",
+        format: "Onsite",
+        level: "Graduate+",
+        location: "Trieste",
+        deadline: "July 10"
+      },
+      "nanoscience-surfaces-school": {
+        title: "Nanoscience and Surfaces Summer School",
+        description:
+          "A summer school on nanoscience, surfaces, materials and experimental methods in modern condensed-matter physics.",
+        format: "Offline",
+        level: "Student+",
+        location: "United Kingdom",
+        deadline: "July 20"
+      },
+      "phystec-workshop-2026": {
+        title: "PhysTEC Workshop 2026",
+        description:
+          "A workshop for physics teacher educators and program leaders, focused on practice, research and community exchange.",
+        format: "Offline",
+        level: "Educators",
+        location: "Washington, D.C.",
+        deadline: "August 7"
+      },
+      "lhc-ls3-briefing": {
+        title: "LHC Long Shutdown 3 Briefing",
+        description:
+          "A guide to particle physics' major 2026 story: the LHC's transition to the High-Luminosity upgrade and Run 3 data analysis.",
+        format: "Online",
+        level: "All levels",
+        location: "CERN / online",
+        deadline: "August 15"
+      },
+      "imo-2026": {
+        title: "International Mathematical Olympiad 2026",
+        description:
+          "The 67th International Mathematical Olympiad in Shanghai, the leading global contest for school mathematics teams.",
+        format: "Onsite",
+        level: "School teams",
+        location: "Shanghai",
+        deadline: "July 10"
+      },
+      "siam-annual-2026": {
+        title: "SIAM Annual Meeting 2026",
+        description:
+          "SIAM's annual meeting for applied mathematics, computation, modelling and interdisciplinary research.",
+        format: "Offline",
+        level: "Student+",
+        location: "Cleveland",
+        deadline: "July 6"
+      },
+      "icm-2026": {
+        title: "International Congress of Mathematicians",
+        description:
+          "Mathematics' flagship four-year congress, with plenary lectures, prizes, sections and research-community meetings.",
+        format: "Onsite",
+        level: "Research",
+        location: "Philadelphia",
+        deadline: "July 22"
+      },
+      "maa-mathfest-2026": {
+        title: "MAA MathFest 2026",
+        description:
+          "The Mathematical Association of America's large summer meeting, with talks, sessions, learning programs and student events.",
+        format: "Offline",
+        level: "All levels",
+        location: "Boston",
+        deadline: "August 5"
+      },
+      "ipmc-2026": {
+        title: "International Pure Mathematics Conference",
+        description:
+          "A pure mathematics conference with talks across algebra, analysis, geometry and related research areas.",
+        format: "Onsite",
+        level: "Research",
+        location: "Islamabad",
+        deadline: "August 29"
+      },
+      "ams-sectional-kennesaw": {
+        title: "AMS Southeastern Sectional Meeting",
+        description:
+          "An AMS fall sectional meeting with special sessions, research talks and networking for the regional mathematics community.",
+        format: "Offline",
+        level: "Research",
+        location: "Kennesaw, Georgia",
+        deadline: "October 10"
+      },
+      "lms-calendar-autumn": {
+        title: "London Mathematical Society Calendar",
+        description:
+          "A planning entry for autumn mathematics seminars, conferences and schools from the LMS calendar.",
+        format: "Mixed",
+        level: "All levels",
+        location: "UK / online",
+        deadline: "September 15"
+      },
+      "ioqm-2026": {
+        title: "IOQM 2026",
+        description:
+          "India's mathematical olympiad qualifier, the first step for school students entering the international olympiad pathway.",
+        format: "Onsite",
+        level: "School",
+        location: "India",
+        deadline: "September 1"
       }
     },
     months: [
@@ -735,16 +1215,35 @@ const translations = {
   }
 };
 
-const categories = [
-  { id: "hackathon", color: "#0f766e" },
-  { id: "olympiad", color: "#c2410c" },
-  { id: "ai", color: "#7c3aed" },
-  { id: "conference", color: "#2563eb" },
-  { id: "workshop", color: "#9333ea" },
-  { id: "meetup", color: "#be123c" }
-];
+const categoriesBySubject = {
+  it: [
+    { id: "hackathon", color: "#0f766e" },
+    { id: "olympiad", color: "#c2410c" },
+    { id: "ai", color: "#7c3aed" },
+    { id: "conference", color: "#2563eb" },
+    { id: "workshop", color: "#9333ea" },
+    { id: "meetup", color: "#be123c" }
+  ],
+  physics: [
+    { id: "olympiad", color: "#ea580c" },
+    { id: "conference", color: "#0e7490" },
+    { id: "school", color: "#2563eb" },
+    { id: "workshop", color: "#7c3aed" },
+    { id: "lecture", color: "#be123c" },
+    { id: "research", color: "#0f766e" }
+  ],
+  math: [
+    { id: "olympiad", color: "#0e7490" },
+    { id: "congress", color: "#f97316" },
+    { id: "conference", color: "#0891b2" },
+    { id: "school", color: "#2563eb" },
+    { id: "seminar", color: "#be123c" },
+    { id: "contest", color: "#7c3aed" }
+  ]
+};
 
-const events = [
+const eventsBySubject = {
+  it: [
   { id: "ii-confa-2026", category: "ai", date: "2026-07-01", url: "https://ai-confa.ru/" },
   { id: "moscowqa-ozon-ai", category: "ai", date: "2026-07-03", url: "https://networkly.app/event?event_filter%5Btags%5D=ai" },
   { id: "season-code-kazan", category: "meetup", date: "2026-07-04", url: "https://ict2go.ru/" },
@@ -772,79 +1271,122 @@ const events = [
   { id: "spbu-engineering-2026", category: "olympiad", date: "2026-10-25", url: "https://olimpiada.ru/activity/5345" },
   { id: "innopolis-open-info-2026", category: "olympiad", date: "2026-11-01", url: "https://olimpiada.ru/activity/5283" },
   { id: "open-programming-2026", category: "olympiad", date: "2026-11-19", url: "https://olimpiada.ru/activity/23" },
-  { id: "team-programming-2026", category: "olympiad", date: "2026-12-01", url: "https://olimpiada.ru/activity/4326" }
-];
+    { id: "team-programming-2026", category: "olympiad", date: "2026-12-01", url: "https://olimpiada.ru/activity/4326" }
+  ],
+  physics: [
+    { id: "ipho-2026", category: "olympiad", date: "2026-07-04", url: "https://www.ipho-new.org/" },
+    { id: "iop-photonic-metasurfaces", category: "workshop", date: "2026-07-06", url: "https://www.iop.org/physics-community/iop-conferences" },
+    { id: "superconductivity-school-2026", category: "school", date: "2026-07-06", url: "https://www.iop.org/physics-community/iop-conferences" },
+    { id: "ictp-cosmology-school", category: "school", date: "2026-07-10", url: "https://www.ictp.it/home/scientific-calendar" },
+    { id: "synergy-for-science-2026", category: "conference", date: "2026-07-12", url: "https://www.iop.org/physics-community/iop-conferences" },
+    { id: "nanoscience-surfaces-school", category: "school", date: "2026-07-20", url: "https://www.iop.org/physics-community/iop-conferences" },
+    { id: "phystec-workshop-2026", category: "workshop", date: "2026-08-07", url: "https://phystec.org/events/" },
+    { id: "lhc-ls3-briefing", category: "research", date: "2026-08-15", url: "https://home.cern/science/accelerators/large-hadron-collider/" }
+  ],
+  math: [
+    { id: "siam-annual-2026", category: "conference", date: "2026-07-06", url: "https://www.siam.org/conferences-events/" },
+    { id: "imo-2026", category: "olympiad", date: "2026-07-10", url: "https://www.imo-official.org/editions/2026/" },
+    { id: "icm-2026", category: "congress", date: "2026-07-22", url: "https://www.ams.org/meetings/international/international-index" },
+    { id: "maa-mathfest-2026", category: "conference", date: "2026-08-05", url: "https://maa.org/event/mathfest/" },
+    { id: "ipmc-2026", category: "conference", date: "2026-08-29", url: "https://www.ams.org/calendar/mathcalendar.pl" },
+    { id: "ioqm-2026", category: "contest", date: "2026-09-01", url: "https://ioqm.mtai.org.in/" },
+    { id: "lms-calendar-autumn", category: "seminar", date: "2026-09-15", url: "https://www.lms.ac.uk/events/calendar" },
+    { id: "ams-sectional-kennesaw", category: "conference", date: "2026-10-10", url: "https://www.ams.org/meetings/sectional/2339_program.html" }
+  ]
+};
 
-const newsItems = [
-  {
-    id: "godot-ai-policy",
-    date: "2026-07-03",
-    color: "#0f766e",
-    url: "https://godotengine.org/article/contribution-policy-2026/"
-  },
-  {
-    id: "claude-science-bionemo",
-    date: "2026-07-02",
-    color: "#2563eb",
-    url: "https://www.artificialintelligence-news.com/news/nvidia-bionemo-accelerates-anthropic-claude-science/"
-  },
-  {
-    id: "ai-cyber-insurance",
-    date: "2026-07-01",
-    color: "#be123c",
-    url: "https://www.wsj.com/pro/cybersecurity/cyber-insurers-focus-on-speed-as-ai-rewrites-security-0983ad61"
-  },
-  {
-    id: "ai-chip-supply",
-    date: "2026-07-01",
-    color: "#c2410c",
-    url: "https://www.marketwatch.com/story/why-its-too-early-to-call-a-top-on-semiconductor-stocks-according-to-these-highly-regarded-analysts-bb1139d4"
-  },
-  {
-    id: "shadow-ai-security",
-    date: "2026-07-01",
-    color: "#7c3aed",
-    url: "https://thehackernews.com/2026/07/2026-cybersecurity-assessment-gap.html"
-  },
-  {
-    id: "oracle-ebs-flaw",
-    date: "2026-06-30",
-    color: "#be123c",
-    url: "https://thehackernews.com/2026/06/oracle-e-business-suite-flaw-cve-2026.html"
-  },
-  {
-    id: "techcrunch-disrupt-builders",
-    date: "2026-07-01",
-    color: "#0f766e",
-    url: "https://techcrunch.com/2026/07/01/builders-stage-agenda-revealed-practical-strategies-for-scaling-startups-at-techcrunch-disrupt-2026/"
-  },
-  {
-    id: "neo-ai-office",
-    date: "2026-07-01",
-    color: "#2563eb",
-    url: "https://techcrunch.com/2026/07/01/indian-tech-tycoon-bets-30m-to-build-an-ai-alternative-to-microsoft-office/"
-  }
-];
+const newsItemsBySubject = {
+  it: [
+    {
+      id: "godot-ai-policy",
+      date: "2026-07-03",
+      color: "#0f766e",
+      url: "https://godotengine.org/article/contribution-policy-2026/"
+    },
+    {
+      id: "claude-science-bionemo",
+      date: "2026-07-02",
+      color: "#2563eb",
+      url: "https://www.artificialintelligence-news.com/news/nvidia-bionemo-accelerates-anthropic-claude-science/"
+    },
+    {
+      id: "ai-cyber-insurance",
+      date: "2026-07-01",
+      color: "#be123c",
+      url: "https://www.wsj.com/pro/cybersecurity/cyber-insurers-focus-on-speed-as-ai-rewrites-security-0983ad61"
+    },
+    {
+      id: "ai-chip-supply",
+      date: "2026-07-01",
+      color: "#c2410c",
+      url: "https://www.marketwatch.com/story/why-its-too-early-to-call-a-top-on-semiconductor-stocks-according-to-these-highly-regarded-analysts-bb1139d4"
+    },
+    {
+      id: "shadow-ai-security",
+      date: "2026-07-01",
+      color: "#7c3aed",
+      url: "https://thehackernews.com/2026/07/2026-cybersecurity-assessment-gap.html"
+    },
+    {
+      id: "oracle-ebs-flaw",
+      date: "2026-06-30",
+      color: "#be123c",
+      url: "https://thehackernews.com/2026/06/oracle-e-business-suite-flaw-cve-2026.html"
+    },
+    {
+      id: "techcrunch-disrupt-builders",
+      date: "2026-07-01",
+      color: "#0f766e",
+      url: "https://techcrunch.com/2026/07/01/builders-stage-agenda-revealed-practical-strategies-for-scaling-startups-at-techcrunch-disrupt-2026/"
+    },
+    {
+      id: "neo-ai-office",
+      date: "2026-07-01",
+      color: "#2563eb",
+      url: "https://techcrunch.com/2026/07/01/indian-tech-tycoon-bets-30m-to-build-an-ai-alternative-to-microsoft-office/"
+    }
+  ],
+  physics: [
+    { id: "lhc-long-shutdown", date: "2026-07-01", color: "#0e7490", url: "https://home.cern/science/accelerators/large-hadron-collider/" },
+    { id: "xi-cc-plus", date: "2026-05-26", color: "#ea580c", url: "https://www.sciencedaily.com/releases/2026/05/260526022012.htm" },
+    { id: "nasa-spherex-first-light", date: "2026-06-18", color: "#2563eb", url: "https://www.nasa.gov/missions/spherex/" },
+    { id: "quantum-materials-2026", date: "2026-07-03", color: "#7c3aed", url: "https://www.iop.org/physics-community/iop-conferences" }
+  ],
+  math: [
+    { id: "arxiv-spinout", date: "2026-07-01", color: "#0891b2", url: "https://blog.arxiv.org/2026/06/30/arxivs-next-chapter/" },
+    { id: "ai-erdos-unit-distance", date: "2026-05-21", color: "#f97316", url: "https://www.theguardian.com/technology/2026/may/21/openai-paul-erdos-maths-problem-breakthrough" },
+    { id: "imo-record-2026", date: "2026-06-25", color: "#0e7490", url: "https://www.imo-official.org/news/record-participation-imo-2026/" },
+    { id: "icm-2026-philadelphia", date: "2026-04-01", color: "#be123c", url: "https://www.ams.org/news?news_id=7627" }
+  ]
+};
 
 const NEWS_REFRESH_INTERVAL = 5 * 60 * 60 * 1000;
 const HN_NEWS_URL = "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=18";
 const newsColors = ["#0f766e", "#2563eb", "#be123c", "#c2410c", "#7c3aed", "#9333ea", "#0e7490", "#a16207"];
+const savedLang = localStorage.getItem("cc-lang");
+const savedTheme = localStorage.getItem("cc-theme");
+const savedSubject = localStorage.getItem("cc-subject");
+const initialLang = Object.prototype.hasOwnProperty.call(translations, savedLang) ? savedLang : "ru";
+const initialTheme = savedTheme === "dark" || savedTheme === "light" ? savedTheme : "light";
+const initialSubject = Object.prototype.hasOwnProperty.call(eventsBySubject, savedSubject) ? savedSubject : "it";
 
 const state = {
-  lang: localStorage.getItem("cc-lang") || "ru",
-  theme: localStorage.getItem("cc-theme") || "light",
+  lang: initialLang,
+  theme: initialTheme,
+  subject: initialSubject,
   month: new Date(2026, 6, 1),
   activeCategory: "all",
   registeredOnly: false,
   registered: new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]")),
   activeEventId: null,
-  newsItems,
+  newsItems: newsItemsBySubject[initialSubject],
   newsLastUpdated: null,
   newsUsesFallback: true
 };
 
 const els = {
   html: document.documentElement,
+  subjectSwitcher: document.getElementById("subjectSwitcher"),
   filters: document.getElementById("filters"),
   weekdayRow: document.getElementById("weekdayRow"),
   calendarGrid: document.getElementById("calendarGrid"),
@@ -872,19 +1414,43 @@ const els = {
 };
 
 function t(path) {
-  return path.split(".").reduce((acc, key) => acc?.[key], translations[state.lang]);
+  const current = path.split(".").reduce((acc, key) => acc?.[key], translations[state.lang]);
+  if (current !== undefined) return current;
+  return path.split(".").reduce((acc, key) => acc?.[key], translations.ru) ?? "";
+}
+
+function currentCategories() {
+  return categoriesBySubject[state.subject] || categoriesBySubject.it;
+}
+
+function currentEvents() {
+  return eventsBySubject[state.subject] || eventsBySubject.it;
+}
+
+function currentFallbackNews() {
+  return newsItemsBySubject[state.subject] || newsItemsBySubject.it;
 }
 
 function eventCopy(event) {
-  return translations[state.lang].events[event.id];
+  return (
+    translations[state.lang].events[event.id] ||
+    translations.ru.events[event.id] || {
+      title: event.id,
+      description: "",
+      format: "",
+      level: "",
+      location: "",
+      deadline: ""
+    }
+  );
 }
 
 function eventCategory(event) {
-  return categories.find((category) => category.id === event.category);
+  return currentCategories().find((category) => category.id === event.category) || currentCategories()[0];
 }
 
 function filteredEvents() {
-  return events.filter((event) => {
+  return currentEvents().filter((event) => {
     const categoryMatches = state.activeCategory === "all" || event.category === state.activeCategory;
     const registrationMatches = !state.registeredOnly || state.registered.has(event.id);
     return categoryMatches && registrationMatches;
@@ -917,10 +1483,20 @@ function renderStaticText() {
   document.querySelectorAll("[data-lang]").forEach((button) => {
     button.classList.toggle("active", button.dataset.lang === state.lang);
   });
+  document.querySelectorAll("[data-subject]").forEach((button) => {
+    button.textContent = t(`subjects.${button.dataset.subject}`);
+    button.classList.toggle("active", button.dataset.subject === state.subject);
+  });
+
+  const subjectCopy = t(`subjectContent.${state.subject}`) || t("subjectContent.it") || {};
+  Object.entries(subjectCopy).forEach(([key, value]) => {
+    const node = document.querySelector(`[data-i18n="${key}"]`);
+    if (node) node.textContent = value;
+  });
 }
 
 function renderFilters() {
-  const filterItems = [{ id: "all", color: "var(--text)" }, ...categories];
+  const filterItems = [{ id: "all", color: "var(--text)" }, ...currentCategories()];
   els.filters.innerHTML = filterItems
     .map((category) => {
       const label = category.id === "all" ? t("all") : t(`categories.${category.id}`);
@@ -1017,7 +1593,10 @@ function renderNews() {
 
   els.newsList.innerHTML = state.newsItems
     .map((item) => {
-      const copy = item.live ? item.copy[state.lang] : translations[state.lang].news[item.id];
+      const copy = item.live
+        ? item.copy[state.lang] || item.copy.ru
+        : translations[state.lang].news[item.id] || translations.ru.news[item.id];
+      if (!copy) return "";
       return `
         <a class="news-card" href="${item.url}" target="_blank" rel="noreferrer" style="--news-color: ${item.color}">
           <div class="news-meta">
@@ -1092,6 +1671,17 @@ function mapHackerNewsItems(hits) {
 }
 
 async function refreshNews() {
+  const requestedSubject = state.subject;
+
+  if (requestedSubject !== "it") {
+    state.newsItems = currentFallbackNews();
+    state.newsLastUpdated = null;
+    state.newsUsesFallback = true;
+    renderNews();
+    scheduleLayoutSync();
+    return;
+  }
+
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 8000);
 
@@ -1103,13 +1693,15 @@ async function refreshNews() {
     const liveItems = mapHackerNewsItems(data.hits || []);
     if (liveItems.length < 4) throw new Error("Not enough live news items");
 
+    if (state.subject !== requestedSubject) return;
     state.newsItems = liveItems;
     state.newsLastUpdated = new Date();
     state.newsUsesFallback = false;
     renderNews();
     scheduleLayoutSync();
   } catch {
-    state.newsItems = newsItems;
+    if (state.subject !== requestedSubject) return;
+    state.newsItems = currentFallbackNews();
     state.newsUsesFallback = true;
     renderNews();
     scheduleLayoutSync();
@@ -1119,7 +1711,7 @@ async function refreshNews() {
 }
 
 function renderStats() {
-  els.registeredCount.textContent = state.registered.size;
+  els.registeredCount.textContent = currentEvents().filter((event) => state.registered.has(event.id)).length;
   els.visibleCount.textContent = filteredEvents().length;
   els.showRegistered.classList.toggle("active", state.registeredOnly);
 }
@@ -1184,6 +1776,7 @@ function scheduleLayoutSync() {
 
 function renderTheme() {
   document.body.dataset.theme = state.theme;
+  document.body.dataset.subject = state.subject;
   els.themeIcon.textContent = state.theme === "dark" ? "☼" : "☾";
 }
 
@@ -1200,7 +1793,7 @@ function render() {
 }
 
 function openEvent(id) {
-  const event = events.find((item) => item.id === id);
+  const event = currentEvents().find((item) => item.id === id);
   const copy = eventCopy(event);
   const category = eventCategory(event);
   state.activeEventId = id;
@@ -1272,6 +1865,32 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
     render();
     if (els.dialog.open && state.activeEventId) openEvent(state.activeEventId);
   });
+});
+
+els.subjectSwitcher.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-subject]");
+  if (!button || button.dataset.subject === state.subject) return;
+
+  const previousSubject = state.subject;
+  state.subject = button.dataset.subject;
+  state.activeCategory = "all";
+  state.registeredOnly = false;
+  state.activeEventId = null;
+  state.newsItems = currentFallbackNews();
+  state.newsLastUpdated = null;
+  state.newsUsesFallback = true;
+  localStorage.setItem("cc-subject", state.subject);
+
+  if (els.dialog.open) els.dialog.close();
+  try {
+    render();
+    refreshNews();
+  } catch (error) {
+    console.error("Subject switch failed", error);
+    state.subject = previousSubject;
+    state.newsItems = currentFallbackNews();
+    render();
+  }
 });
 
 els.themeToggle.addEventListener("click", () => {
