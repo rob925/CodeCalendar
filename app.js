@@ -1763,7 +1763,8 @@ const state = {
   newsUsesFallback: true,
   authMode: "signin",
   authUser: null,
-  authMessage: ""
+  authMessage: "",
+  authSessionRequest: 0
 };
 
 const supabaseClient =
@@ -1931,6 +1932,27 @@ function renderAuth() {
   els.authSubmit.textContent = state.authMode === "signup" ? t("signUp") : t("signIn");
   els.authModeToggle.textContent = state.authMode === "signup" ? t("haveAccount") : t("createAccount");
   els.authMessage.textContent = state.authMessage;
+}
+
+async function refreshAuthSession() {
+  if (!supabaseClient) return;
+  const requestId = ++state.authSessionRequest;
+  const { data, error } = await supabaseClient.auth.getSession();
+  if (requestId !== state.authSessionRequest) return;
+  if (error) {
+    console.error("Could not refresh Supabase session", error);
+    return;
+  }
+  state.authUser = data.session?.user || null;
+  if (state.authUser) {
+    await uploadLocalRegisteredEvents();
+    if (requestId !== state.authSessionRequest) return;
+    await syncRegisteredEvents();
+    if (requestId !== state.authSessionRequest) return;
+  } else {
+    state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
+  }
+  render();
 }
 
 function renderEmailSuggestions() {
@@ -2285,7 +2307,9 @@ function eventSubject(eventId) {
 
 async function syncRegisteredEvents() {
   if (!supabaseClient || !state.authUser) return;
-  const { data, error } = await supabaseClient.from("user_events").select("event_id").eq("user_id", state.authUser.id);
+  const userId = state.authUser.id;
+  const { data, error } = await supabaseClient.from("user_events").select("event_id").eq("user_id", userId);
+  if (state.authUser?.id !== userId) return;
   if (error) {
     console.error("Could not load registered events", error);
     return;
@@ -2408,6 +2432,7 @@ async function handleAuthSubmit(event) {
 }
 
 function signOut() {
+  state.authSessionRequest += 1;
   state.authUser = null;
   state.authMessage = t("authSignedOut");
   state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
@@ -2447,6 +2472,7 @@ document.querySelectorAll("[data-lang]").forEach((button) => {
     state.lang = button.dataset.lang;
     localStorage.setItem("cc-lang", state.lang);
     render();
+    refreshAuthSession();
     if (els.dialog.open && state.activeEventId) openEvent(state.activeEventId);
   });
 });
@@ -2469,6 +2495,7 @@ els.subjectSwitcher.addEventListener("click", (event) => {
   try {
     render();
     refreshNews();
+    refreshAuthSession();
   } catch (error) {
     console.error("Subject switch failed", error);
     state.subject = previousSubject;
@@ -2546,17 +2573,9 @@ refreshNews();
 setInterval(refreshNews, NEWS_REFRESH_INTERVAL);
 
 if (supabaseClient) {
-  supabaseClient.auth.getUser().then(async ({ data }) => {
-    state.authUser = data.user;
-    if (state.authUser) {
-      await uploadLocalRegisteredEvents();
-      await syncRegisteredEvents();
-    }
-    renderAuth();
-  }).catch((error) => {
-    console.error("Could not restore Supabase session", error);
-  });
+  refreshAuthSession();
   supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    state.authSessionRequest += 1;
     state.authUser = session?.user || null;
     if (state.authUser) {
       await uploadLocalRegisteredEvents();
