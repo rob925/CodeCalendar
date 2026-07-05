@@ -1,5 +1,5 @@
 const assert = require("assert");
-const { validateAuthEmail, emailSuggestions } = require("../app.js");
+const { validateAuthEmail, emailSuggestions, emailGhostSuggestion } = require("../app.js");
 
 assert.strictEqual(validateAuthEmail("a@b.co"), "");
 assert.strictEqual(validateAuthEmail("aa@b.c"), "authEmailDomainInvalid");
@@ -16,3 +16,6 @@ assert.deepStrictEqual(emailSuggestions("maksim@").slice(0, 3), [
 assert.ok(emailSuggestions("maksim@gm").includes("maksim@gmail.com"));
 assert.ok(emailSuggestions("maksim@gmail.").includes("maksim@gmail.com"));
 assert.ok(emailSuggestions("maksimgmail").includes("maksim@gmail.com"));
+assert.deepStrictEqual(emailSuggestions("maksim@gmail.com"), []);
+assert.strictEqual(emailGhostSuggestion("maksim@gm"), "maksim@gmail.com");
+assert.strictEqual(emailGhostSuggestion("maksim@gmail.com"), "");

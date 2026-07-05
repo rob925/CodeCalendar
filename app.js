@@ -28,11 +28,17 @@ function emailSuggestions(email) {
     return emailSuggestions(`${name}@${local.slice(name.length)}`);
   }
   const domainPart = typedDomain.toLowerCase();
+  if (EMAIL_DOMAINS.includes(domainPart)) return [];
   return EMAIL_DOMAINS.filter((domain) => domain.startsWith(domainPart) || domain.includes(domainPart)).map((domain) => `${local}@${domain}`);
 }
 
+function emailGhostSuggestion(email) {
+  const [suggestion = ""] = emailSuggestions(email);
+  return suggestion && suggestion !== email ? suggestion : "";
+}
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { validateAuthPassword, validateAuthEmail, emailSuggestions };
+  module.exports = { validateAuthPassword, validateAuthEmail, emailSuggestions, emailGhostSuggestion };
 }
 
 if (typeof window !== "undefined") {
@@ -1802,7 +1808,7 @@ const els = {
   authEyebrow: document.getElementById("authEyebrow"),
   authName: document.getElementById("authName"),
   authEmail: document.getElementById("authEmail"),
-  emailSuggestions: document.getElementById("emailSuggestions"),
+  emailGhost: document.getElementById("emailGhost"),
   authPasswordSignIn: document.getElementById("authPasswordSignIn") || document.getElementById("authPassword"),
   authPasswordSignUp: document.getElementById("authPasswordSignUp") || document.getElementById("authPassword"),
   passwordSignInField: document.getElementById("passwordSignInField"),
@@ -1920,11 +1926,14 @@ function renderAuth() {
 }
 
 function renderEmailSuggestions() {
-  const options = emailSuggestions(els.authEmail.value.trim())
-    .slice(0, 6)
-    .map((email) => `<option value="${email}"></option>`)
-    .join("");
-  els.emailSuggestions.innerHTML = options;
+  const typed = els.authEmail.value.trim();
+  const ghost = emailGhostSuggestion(typed);
+  els.emailGhost.textContent = ghost && ghost.startsWith(typed) ? `${typed}${ghost.slice(typed.length)}` : "";
+}
+
+function applyEmailSuggestion(email) {
+  els.authEmail.value = email;
+  renderEmailSuggestions();
 }
 
 function renderFilters() {
@@ -2478,6 +2487,15 @@ els.authModeToggle.addEventListener("click", () => {
   renderAuth();
 });
 els.authEmail.addEventListener("input", renderEmailSuggestions);
+els.authEmail.addEventListener("keydown", (event) => {
+  if (event.key === "Tab") {
+    const suggestion = emailGhostSuggestion(els.authEmail.value.trim());
+    if (suggestion) {
+      event.preventDefault();
+      applyEmailSuggestion(suggestion);
+    }
+  }
+});
 els.authForm.addEventListener("submit", handleAuthSubmit);
 window.addEventListener("resize", scheduleLayoutSync);
 window.addEventListener("load", scheduleLayoutSync);

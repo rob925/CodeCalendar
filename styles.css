@@ -984,16 +984,44 @@ body[data-subject="math"] .shader-grid {
   font-weight: 800;
 }
 
-.auth-field input {
+.auth-field input,
+.email-combobox {
   width: 100%;
   min-width: 0;
   min-height: 42px;
-  padding: 0 44px 0 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   color: var(--text);
   background: var(--surface);
   font: inherit;
+}
+
+.auth-field input {
+  padding: 0 44px 0 12px;
+}
+
+.email-combobox {
+  position: relative;
+  display: block;
+}
+
+.email-combobox input {
+  position: relative;
+  border: 0;
+  background: transparent;
+  z-index: 1;
+}
+
+.email-ghost {
+  position: absolute;
+  inset: 0 12px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  color: color-mix(in srgb, var(--text), transparent 58%);
+  font: inherit;
+  pointer-events: none;
+  white-space: nowrap;
 }
 
 .auth-message {
@@ -1005,17 +1033,26 @@ body[data-subject="math"] .shader-grid {
 }
 
 .auth-actions {
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 10px;
 }
 
 .auth-actions .primary-button,
 .auth-actions .text-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
   min-height: 42px;
   height: auto;
+  padding-inline: 10px;
   padding-block: 8px;
+  font-size: clamp(13px, 3.1vw, 16px);
   line-height: 1.15;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
+  text-align: center;
   white-space: normal;
 }
 
@@ -1457,6 +1494,10 @@ body[data-subject="math"] .shader-grid {
     min-width: max-content;
   }
 
+  .auth-actions .text-button {
+    min-width: 0;
+  }
+
   .event-card {
     padding: 12px;
   }
@@ -1498,7 +1539,7 @@ body[data-subject="math"] .shader-grid {
   }
 
   .auth-actions {
+    grid-template-columns: 1fr;
     align-items: stretch;
-    flex-direction: column;
   }
 }
