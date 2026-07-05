@@ -80,6 +80,8 @@ const translations = {
     authSignUpTitle: "Регистрация",
     authName: "Имя",
     authPassword: "Пароль",
+    authSigningIn: "Входим...",
+    authSigningUp: "Регистрируем...",
     authPasswordTooShort: "Пароль должен быть не короче 6 символов",
     authPasswordCyrillic: "Пароль не должен содержать русские буквы",
     authEmailTooShort: "Email должен быть не короче 6 символов",
@@ -846,6 +848,8 @@ const translations = {
     authSignUpTitle: "Registration",
     authName: "Name",
     authPassword: "Password",
+    authSigningIn: "Signing in...",
+    authSigningUp: "Signing up...",
     authPasswordTooShort: "Password must be at least 6 characters",
     authPasswordCyrillic: "Password must not contain Russian letters",
     authEmailTooShort: "Email must be at least 6 characters",
@@ -1764,6 +1768,7 @@ const state = {
   authMode: "signin",
   authUser: null,
   authMessage: "",
+  authPending: false,
   authSessionRequest: 0
 };
 
@@ -1929,7 +1934,15 @@ function renderAuth() {
   if (els.authPasswordSignUp) els.authPasswordSignUp.required = state.authMode === "signup";
   els.authTitle.textContent = state.authMode === "signup" ? t("authSignUpTitle") : t("authSignInTitle");
   els.authEyebrow.textContent = state.authMode === "signup" ? t("authEyebrowSignUp") : t("authEyebrowSignIn");
-  els.authSubmit.textContent = state.authMode === "signup" ? t("signUp") : t("signIn");
+  els.authSubmit.textContent = state.authPending
+    ? state.authMode === "signup"
+      ? t("authSigningUp")
+      : t("authSigningIn")
+    : state.authMode === "signup"
+      ? t("signUp")
+      : t("signIn");
+  els.authSubmit.disabled = state.authPending;
+  els.authModeToggle.disabled = state.authPending;
   els.authModeToggle.textContent = state.authMode === "signup" ? t("haveAccount") : t("createAccount");
   els.authMessage.textContent = state.authMessage;
 }
@@ -2383,6 +2396,7 @@ function openAuthDialog(mode = "signin") {
 
 async function handleAuthSubmit(event) {
   event.preventDefault();
+  if (state.authPending) return;
   if (!supabaseClient) {
     state.authMessage = t("authSupabaseMissing");
     renderAuth();
@@ -2410,10 +2424,23 @@ async function handleAuthSubmit(event) {
     return;
   }
 
-  const result =
-    state.authMode === "signup"
-      ? await supabaseClient.auth.signUp({ email, password, options: { data: { name } } })
-      : await supabaseClient.auth.signInWithPassword({ email, password });
+  state.authPending = true;
+  state.authMessage = "";
+  renderAuth();
+
+  let result;
+  try {
+    result =
+      state.authMode === "signup"
+        ? await supabaseClient.auth.signUp({ email, password, options: { data: { name } } })
+        : await supabaseClient.auth.signInWithPassword({ email, password });
+  } catch (error) {
+    state.authPending = false;
+    state.authMessage = error.message || t("authError");
+    renderAuth();
+    return;
+  }
+  state.authPending = false;
 
   if (result.error) {
     state.authMessage = result.error.message || t("authError");
