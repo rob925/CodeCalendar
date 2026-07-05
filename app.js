@@ -1,5 +1,6 @@
 const CYRILLIC_PATTERN = /[А-Яа-яЁё]/;
 const EMAIL_DOMAINS = ["gmail.com", "mail.ru", "yandex.ru", "outlook.com", "icloud.com", "yahoo.com", "proton.me", "rambler.ru"];
+const AUTH_ACTIVE_KEY = "cc-auth-active";
 
 function validateAuthPassword(password) {
   if (password.length < 6) return "authPasswordTooShort";
@@ -37,8 +38,12 @@ function emailGhostSuggestion(email) {
   return suggestion && suggestion !== email ? suggestion : "";
 }
 
+function shouldRestoreAuthSession(value) {
+  return value === "1";
+}
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { validateAuthPassword, validateAuthEmail, emailSuggestions, emailGhostSuggestion };
+  module.exports = { validateAuthPassword, validateAuthEmail, emailSuggestions, emailGhostSuggestion, shouldRestoreAuthSession };
 }
 
 if (typeof window !== "undefined") {
@@ -1779,6 +1784,30 @@ const supabaseClient =
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
     : null;
 
+function hasActiveAuthSession() {
+  return shouldRestoreAuthSession(localStorage.getItem(AUTH_ACTIVE_KEY));
+}
+
+function markAuthActive() {
+  localStorage.setItem(AUTH_ACTIVE_KEY, "1");
+}
+
+function clearAuthActive() {
+  localStorage.removeItem(AUTH_ACTIVE_KEY);
+}
+
+function clearStaleAuthSession() {
+  state.authSessionRequest += 1;
+  state.authUser = null;
+  state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
+  render();
+  if (supabaseClient) {
+    supabaseClient.auth.signOut().catch((error) => {
+      console.error("Could not clear stale Supabase session", error);
+    });
+  }
+}
+
 const els = {
   html: document.documentElement,
   subjectSwitcher: document.getElementById("subjectSwitcher"),
@@ -1951,6 +1980,10 @@ function renderAuth() {
 
 async function refreshAuthSession() {
   if (!supabaseClient) return;
+  if (!hasActiveAuthSession()) {
+    clearStaleAuthSession();
+    return;
+  }
   const requestId = ++state.authSessionRequest;
   let data;
   let error;
@@ -2468,15 +2501,17 @@ async function handleAuthSubmit(event) {
     renderAuth();
     return;
   }
-  state.authPending = false;
-
   if (result.error) {
+    state.authPending = false;
     state.authMessage = result.error.message || t("authError");
     renderAuth();
     return;
   }
 
-  state.authUser = result.data.session?.user || null;
+  const signedInUser = result.data.session?.user || null;
+  if (signedInUser) markAuthActive();
+  state.authPending = false;
+  state.authUser = signedInUser;
   state.authMessage = state.authUser ? t("authWelcome") : t("authCheckEmail");
   renderAuth();
   if (state.authUser) {
@@ -2497,6 +2532,7 @@ async function syncAfterAuth() {
 }
 
 function signOut() {
+  clearAuthActive();
   state.authSessionRequest += 1;
   state.authUser = null;
   state.authMessage = t("authSignedOut");
@@ -2640,6 +2676,10 @@ setInterval(refreshNews, NEWS_REFRESH_INTERVAL);
 if (supabaseClient) {
   refreshAuthSession();
   supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    if (session?.user && !hasActiveAuthSession() && !state.authPending) {
+      clearStaleAuthSession();
+      return;
+    }
     state.authSessionRequest += 1;
     state.authUser = session?.user || null;
     if (state.authUser) {
