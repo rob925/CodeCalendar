@@ -94,6 +94,7 @@ const translations = {
     authSignedOut: "Вы вышли из аккаунта",
     authGreeting: "Привет, {name}",
     authError: "Не удалось выполнить действие. Проверьте данные и попробуйте ещё раз.",
+    authTimeout: "Превышено время ожидания. Проверьте подключение и попробуйте ещё раз.",
     subjects: {
       it: "IT",
       physics: "Физика",
@@ -862,6 +863,7 @@ const translations = {
     authSignedOut: "You are signed out",
     authGreeting: "Hi, {name}",
     authError: "Could not complete the action. Check the details and try again.",
+    authTimeout: "Request timed out. Check your connection and try again.",
     subjects: {
       it: "IT",
       physics: "Physics",
@@ -1950,7 +1952,14 @@ function renderAuth() {
 async function refreshAuthSession() {
   if (!supabaseClient) return;
   const requestId = ++state.authSessionRequest;
-  const { data, error } = await supabaseClient.auth.getSession();
+  let data;
+  let error;
+  try {
+    ({ data, error } = await withTimeout(supabaseClient.auth.getSession(), 15000));
+  } catch (timeoutError) {
+    console.error("Could not refresh Supabase session", timeoutError);
+    return;
+  }
   if (requestId !== state.authSessionRequest) return;
   if (error) {
     console.error("Could not refresh Supabase session", error);
@@ -1958,10 +1967,14 @@ async function refreshAuthSession() {
   }
   state.authUser = data.session?.user || null;
   if (state.authUser) {
-    await uploadLocalRegisteredEvents();
-    if (requestId !== state.authSessionRequest) return;
-    await syncRegisteredEvents();
-    if (requestId !== state.authSessionRequest) return;
+    try {
+      await withTimeout(uploadLocalRegisteredEvents(), 15000);
+      if (requestId !== state.authSessionRequest) return;
+      await withTimeout(syncRegisteredEvents(), 15000);
+      if (requestId !== state.authSessionRequest) return;
+    } catch (syncError) {
+      console.error("Could not sync registered events", syncError);
+    }
   } else {
     state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
   }
@@ -2394,6 +2407,20 @@ function openAuthDialog(mode = "signin") {
   if (!els.authDialog.open) els.authDialog.showModal();
 }
 
+class TimeoutError extends Error {
+  constructor(message = "Request timed out") {
+    super(message);
+    this.name = "TimeoutError";
+  }
+}
+
+function withTimeout(promise, ms, message = "Request timed out") {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new TimeoutError(message)), ms))
+  ]);
+}
+
 async function handleAuthSubmit(event) {
   event.preventDefault();
   if (state.authPending) return;
@@ -2430,13 +2457,14 @@ async function handleAuthSubmit(event) {
 
   let result;
   try {
-    result =
+    const authPromise =
       state.authMode === "signup"
-        ? await supabaseClient.auth.signUp({ email, password, options: { data: { name } } })
-        : await supabaseClient.auth.signInWithPassword({ email, password });
+        ? supabaseClient.auth.signUp({ email, password, options: { data: { name } } })
+        : supabaseClient.auth.signInWithPassword({ email, password });
+    result = await withTimeout(authPromise, 15000);
   } catch (error) {
     state.authPending = false;
-    state.authMessage = error.message || t("authError");
+    state.authMessage = error.name === "TimeoutError" ? t("authTimeout") : (error.message || t("authError"));
     renderAuth();
     return;
   }
@@ -2450,11 +2478,21 @@ async function handleAuthSubmit(event) {
 
   state.authUser = result.data.session?.user || null;
   state.authMessage = state.authUser ? t("authWelcome") : t("authCheckEmail");
+  renderAuth();
   if (state.authUser) {
-    await uploadLocalRegisteredEvents();
-    await syncRegisteredEvents();
     els.authDialog.close();
+    render();
+    syncAfterAuth().catch((error) => {
+      console.error("Could not sync registered events after auth", error);
+    });
+  } else {
+    render();
   }
+}
+
+async function syncAfterAuth() {
+  await withTimeout(uploadLocalRegisteredEvents(), 15000);
+  await withTimeout(syncRegisteredEvents(), 15000);
   render();
 }
 
@@ -2605,8 +2643,12 @@ if (supabaseClient) {
     state.authSessionRequest += 1;
     state.authUser = session?.user || null;
     if (state.authUser) {
-      await uploadLocalRegisteredEvents();
-      await syncRegisteredEvents();
+      try {
+        await withTimeout(uploadLocalRegisteredEvents(), 15000);
+        await withTimeout(syncRegisteredEvents(), 15000);
+      } catch (error) {
+        console.error("Could not sync registered events on auth state change", error);
+      }
     }
     render();
   });
