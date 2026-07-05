@@ -1,6 +1,4 @@
-const PASSWORD_LENGTH = 8;
 const CYRILLIC_PATTERN = /[А-Яа-яЁё]/;
-const PASSWORD_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
 
 function validateAuthPassword(password) {
   if (password.length < 6) return "authPasswordTooShort";
@@ -8,18 +6,8 @@ function validateAuthPassword(password) {
   return "";
 }
 
-function generatePassword(length = PASSWORD_LENGTH) {
-  const bytes = new Uint32Array(length);
-  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
-    crypto.getRandomValues(bytes);
-  } else {
-    for (let i = 0; i < length; i += 1) bytes[i] = Math.floor(Math.random() * PASSWORD_ALPHABET.length);
-  }
-  return Array.from(bytes, (value) => PASSWORD_ALPHABET[value % PASSWORD_ALPHABET.length]).join("");
-}
-
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { validateAuthPassword, generatePassword };
+  module.exports = { validateAuthPassword };
 }
 
 if (typeof window !== "undefined") {
@@ -53,7 +41,7 @@ const translations = {
     signOut: "Выйти",
     signIn: "Войти",
     signUp: "Зарегистрироваться",
-    createAccount: "Создать аккаунт",
+    createAccount: "Зарегестрироваться",
     haveAccount: "У меня уже есть аккаунт",
     authEyebrowSignIn: "Аккаунт",
     authEyebrowSignUp: "Новый аккаунт",
@@ -61,7 +49,6 @@ const translations = {
     authSignUpTitle: "Регистрация",
     authName: "Имя",
     authPassword: "Пароль",
-    generatePassword: "Сгенерировать",
     authPasswordTooShort: "Пароль должен быть не короче 6 символов",
     authPasswordCyrillic: "Пароль не должен содержать русские буквы",
     authNameRequired: "Введите имя",
@@ -817,7 +804,7 @@ const translations = {
     signOut: "Sign out",
     signIn: "Sign in",
     signUp: "Sign up",
-    createAccount: "Create account",
+    createAccount: "Sign up",
     haveAccount: "I already have an account",
     authEyebrowSignIn: "Account",
     authEyebrowSignUp: "New account",
@@ -825,7 +812,6 @@ const translations = {
     authSignUpTitle: "Registration",
     authName: "Name",
     authPassword: "Password",
-    generatePassword: "Generate",
     authPasswordTooShort: "Password must be at least 6 characters",
     authPasswordCyrillic: "Password must not contain Russian letters",
     authNameRequired: "Enter your name",
@@ -1787,7 +1773,6 @@ const els = {
   authEmail: document.getElementById("authEmail"),
   authPassword: document.getElementById("authPassword"),
   nameField: document.getElementById("nameField"),
-  generatePassword: document.getElementById("generatePassword"),
   authMessage: document.getElementById("authMessage"),
   authSubmit: document.getElementById("authSubmit"),
   authModeToggle: document.getElementById("authModeToggle")
@@ -2435,11 +2420,6 @@ els.authDialog.addEventListener("click", (event) => {
 });
 els.authModeToggle.addEventListener("click", () => {
   state.authMode = state.authMode === "signup" ? "signin" : "signup";
-  state.authMessage = "";
-  renderAuth();
-});
-els.generatePassword.addEventListener("click", () => {
-  els.authPassword.value = generatePassword();
   state.authMessage = "";
   renderAuth();
 });

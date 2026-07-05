@@ -312,8 +312,7 @@ body[data-subject="math"] .shader-grid {
 .dialog-actions,
 .dialog-meta,
 .account-control,
-.auth-actions,
-.password-row {
+.auth-actions {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -990,14 +989,6 @@ body[data-subject="math"] .shader-grid {
   font: inherit;
 }
 
-.password-row {
-  align-items: stretch;
-}
-
-.password-row input {
-  flex: 1;
-}
-
 .auth-message {
   min-height: 20px;
   margin: 0;
@@ -1008,6 +999,12 @@ body[data-subject="math"] .shader-grid {
 
 .auth-actions {
   justify-content: space-between;
+}
+
+.auth-actions .primary-button,
+.auth-actions .text-button {
+  min-width: 0;
+  white-space: normal;
 }
 
 @media (max-width: 1120px) {
@@ -1488,7 +1485,6 @@ body[data-subject="math"] .shader-grid {
     width: 100%;
   }
 
-  .password-row,
   .auth-actions {
     align-items: stretch;
     flex-direction: column;

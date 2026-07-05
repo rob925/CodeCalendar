@@ -12,7 +12,7 @@ Add optional user authorization to CodeCalendar so visitors can keep using the s
 - Registration asks for name, email, then password.
 - Sign-in asks for email and password only.
 - The password must be at least 6 characters and must not contain Russian letters.
-- The password field has an 8-character generator button.
+- The password field uses `autocomplete="new-password"` during registration so Chrome/Google Password Manager can offer a strong password.
 - Signed-in users see a short greeting using their saved name.
 - Signed-in users can sign out from the same toolbar area.
 
@@ -47,7 +47,7 @@ Row Level Security must let users select, insert, and delete only their own rows
 
 ## Testing
 
-- Add a small Node test for password validation and generation.
+- Add a small Node test for password validation.
 - Run `node --check app.js`.
 - Run the existing event id/translation duplicate check.
 - Manual Supabase login testing is only possible after the project owner adds real Supabase credentials and database policies.

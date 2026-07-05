@@ -12,7 +12,7 @@
 
 - Do not add a custom backend for this feature.
 - Password minimum length is 6 characters.
-- Generated passwords are 8 characters.
+- Chrome/Google Password Manager handles password suggestions through `autocomplete="new-password"`; the app does not render its own generator button.
 - Russian letters are not allowed in passwords.
 - The site remains usable without authentication and without Supabase credentials.
 
@@ -26,22 +26,17 @@
 
 **Interfaces:**
 - Produces: `validateAuthPassword(password)` returning a translation key string or empty string.
-- Produces: `generatePassword(length = 8)` returning an ASCII password string.
+- Produces: `validateAuthPassword(password)` returning a translation key string or empty string.
 
 - [ ] **Step 1: Write the failing test**
 
 ```js
 const assert = require("assert");
-const { validateAuthPassword, generatePassword } = require("../app.js");
+const { validateAuthPassword } = require("../app.js");
 
 assert.strictEqual(validateAuthPassword("abc12"), "authPasswordTooShort");
 assert.strictEqual(validateAuthPassword("abcdef"), "");
 assert.strictEqual(validateAuthPassword("пароль12"), "authPasswordCyrillic");
-
-const generated = generatePassword();
-assert.strictEqual(generated.length, 8);
-assert.strictEqual(/[А-Яа-яЁё]/.test(generated), false);
-assert.strictEqual(validateAuthPassword(generated), "");
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
@@ -68,7 +63,7 @@ Expected: PASS with exit code 0.
 - Modify: `app.js`
 
 **Interfaces:**
-- Consumes: `validateAuthPassword(password)` and `generatePassword(length = 8)`.
+- Consumes: `validateAuthPassword(password)`.
 - Produces: account toolbar controls, auth dialog, Supabase session handling, `syncRegisteredEvents()`.
 
 - [ ] **Step 1: Add Supabase CDN and auth dialog markup**
