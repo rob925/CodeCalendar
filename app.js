@@ -1771,8 +1771,8 @@ const els = {
   authEyebrow: document.getElementById("authEyebrow"),
   authName: document.getElementById("authName"),
   authEmail: document.getElementById("authEmail"),
-  authPasswordSignIn: document.getElementById("authPasswordSignIn"),
-  authPasswordSignUp: document.getElementById("authPasswordSignUp"),
+  authPasswordSignIn: document.getElementById("authPasswordSignIn") || document.getElementById("authPassword"),
+  authPasswordSignUp: document.getElementById("authPasswordSignUp") || document.getElementById("authPassword"),
   passwordSignInField: document.getElementById("passwordSignInField"),
   passwordSignUpField: document.getElementById("passwordSignUpField"),
   nameField: document.getElementById("nameField"),
@@ -1876,10 +1876,10 @@ function renderAuth() {
   els.signOutButton.classList.toggle("hidden", !isSignedIn);
   els.nameField.classList.toggle("hidden", state.authMode !== "signup");
   els.authName.required = state.authMode === "signup";
-  els.passwordSignInField.classList.toggle("hidden", state.authMode === "signup");
-  els.passwordSignUpField.classList.toggle("hidden", state.authMode !== "signup");
-  els.authPasswordSignIn.required = state.authMode !== "signup";
-  els.authPasswordSignUp.required = state.authMode === "signup";
+  els.passwordSignInField?.classList.toggle("hidden", state.authMode === "signup");
+  els.passwordSignUpField?.classList.toggle("hidden", state.authMode !== "signup");
+  if (els.authPasswordSignIn) els.authPasswordSignIn.required = state.authMode !== "signup";
+  if (els.authPasswordSignUp) els.authPasswordSignUp.required = state.authMode === "signup";
   els.authTitle.textContent = state.authMode === "signup" ? t("authSignUpTitle") : t("authSignInTitle");
   els.authEyebrow.textContent = state.authMode === "signup" ? t("authEyebrowSignUp") : t("authEyebrowSignIn");
   els.authSubmit.textContent = state.authMode === "signup" ? t("signUp") : t("signIn");
@@ -2427,8 +2427,8 @@ els.authDialog.addEventListener("click", (event) => {
 els.authModeToggle.addEventListener("click", () => {
   state.authMode = state.authMode === "signup" ? "signin" : "signup";
   state.authMessage = "";
-  els.authPasswordSignIn.value = "";
-  els.authPasswordSignUp.value = "";
+  if (els.authPasswordSignIn) els.authPasswordSignIn.value = "";
+  if (els.authPasswordSignUp && els.authPasswordSignUp !== els.authPasswordSignIn) els.authPasswordSignUp.value = "";
   renderAuth();
 });
 els.authForm.addEventListener("submit", handleAuthSubmit);
@@ -2457,6 +2457,8 @@ if (supabaseClient) {
       await syncRegisteredEvents();
     }
     renderAuth();
+  }).catch((error) => {
+    console.error("Could not restore Supabase session", error);
   });
   supabaseClient.auth.onAuthStateChange(async (_event, session) => {
     state.authUser = session?.user || null;
