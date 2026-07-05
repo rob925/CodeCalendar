@@ -1004,6 +1004,11 @@ body[data-subject="math"] .shader-grid {
 .auth-actions .primary-button,
 .auth-actions .text-button {
   min-width: 0;
+  min-height: 42px;
+  height: auto;
+  padding-block: 8px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
   white-space: normal;
 }
 

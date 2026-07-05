@@ -1702,8 +1702,8 @@ const newsItemsBySubject = {
 
 const NEWS_REFRESH_INTERVAL = 5 * 60 * 60 * 1000;
 const HN_NEWS_URL = "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=18";
-const SUPABASE_URL = "https://lnqjsoqkybtxmboqisbw.supabase.co/rest/v1/";
-const SUPABASE_ANON_KEY = "PASTEeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWpzb3FreWJ0eG1ib3Fpc2J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTE0NzgsImV4cCI6MjA5ODgyNzQ3OH0.U_plSDL6ACvf-fpEZD2RZuvSA5mFZpiQoZ2tMAdN6-E";
+const SUPABASE_URL = "https://lnqjsoqkybtxmboqisbw.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWpzb3FreWJ0eG1ib3Fpc2J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTE0NzgsImV4cCI6MjA5ODgyNzQ3OH0.U_plSDL6ACvf-fpEZD2RZuvSA5mFZpiQoZ2tMAdN6-E";
 const newsColors = ["#0f766e", "#2563eb", "#be123c", "#c2410c", "#7c3aed", "#9333ea", "#0e7490", "#a16207"];
 const savedLang = localStorage.getItem("cc-lang");
 const savedTheme = localStorage.getItem("cc-theme");
@@ -1771,7 +1771,10 @@ const els = {
   authEyebrow: document.getElementById("authEyebrow"),
   authName: document.getElementById("authName"),
   authEmail: document.getElementById("authEmail"),
-  authPassword: document.getElementById("authPassword"),
+  authPasswordSignIn: document.getElementById("authPasswordSignIn"),
+  authPasswordSignUp: document.getElementById("authPasswordSignUp"),
+  passwordSignInField: document.getElementById("passwordSignInField"),
+  passwordSignUpField: document.getElementById("passwordSignUpField"),
   nameField: document.getElementById("nameField"),
   authMessage: document.getElementById("authMessage"),
   authSubmit: document.getElementById("authSubmit"),
@@ -1873,7 +1876,10 @@ function renderAuth() {
   els.signOutButton.classList.toggle("hidden", !isSignedIn);
   els.nameField.classList.toggle("hidden", state.authMode !== "signup");
   els.authName.required = state.authMode === "signup";
-  els.authPassword.autocomplete = state.authMode === "signup" ? "new-password" : "current-password";
+  els.passwordSignInField.classList.toggle("hidden", state.authMode === "signup");
+  els.passwordSignUpField.classList.toggle("hidden", state.authMode !== "signup");
+  els.authPasswordSignIn.required = state.authMode !== "signup";
+  els.authPasswordSignUp.required = state.authMode === "signup";
   els.authTitle.textContent = state.authMode === "signup" ? t("authSignUpTitle") : t("authSignInTitle");
   els.authEyebrow.textContent = state.authMode === "signup" ? t("authEyebrowSignUp") : t("authEyebrowSignIn");
   els.authSubmit.textContent = state.authMode === "signup" ? t("signUp") : t("signIn");
@@ -2292,7 +2298,7 @@ async function handleAuthSubmit(event) {
 
   const name = els.authName.value.trim();
   const email = els.authEmail.value.trim();
-  const password = els.authPassword.value;
+  const password = state.authMode === "signup" ? els.authPasswordSignUp.value : els.authPasswordSignIn.value;
   const passwordError = validateAuthPassword(password);
   if (state.authMode === "signup" && !name) {
     state.authMessage = t("authNameRequired");
@@ -2421,6 +2427,8 @@ els.authDialog.addEventListener("click", (event) => {
 els.authModeToggle.addEventListener("click", () => {
   state.authMode = state.authMode === "signup" ? "signin" : "signup";
   state.authMessage = "";
+  els.authPasswordSignIn.value = "";
+  els.authPasswordSignUp.value = "";
   renderAuth();
 });
 els.authForm.addEventListener("submit", handleAuthSubmit);
