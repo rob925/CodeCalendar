@@ -1,3 +1,28 @@
+const PASSWORD_LENGTH = 8;
+const CYRILLIC_PATTERN = /[А-Яа-яЁё]/;
+const PASSWORD_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#$%";
+
+function validateAuthPassword(password) {
+  if (password.length < 6) return "authPasswordTooShort";
+  if (CYRILLIC_PATTERN.test(password)) return "authPasswordCyrillic";
+  return "";
+}
+
+function generatePassword(length = PASSWORD_LENGTH) {
+  const bytes = new Uint32Array(length);
+  if (typeof crypto !== "undefined" && crypto.getRandomValues) {
+    crypto.getRandomValues(bytes);
+  } else {
+    for (let i = 0; i < length; i += 1) bytes[i] = Math.floor(Math.random() * PASSWORD_ALPHABET.length);
+  }
+  return Array.from(bytes, (value) => PASSWORD_ALPHABET[value % PASSWORD_ALPHABET.length]).join("");
+}
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { validateAuthPassword, generatePassword };
+}
+
+if (typeof window !== "undefined") {
 const translations = {
   ru: {
     brandTagline: "центр IT-событий",
@@ -24,6 +49,28 @@ const translations = {
     empty: "Нет событий для выбранных фильтров.",
     all: "Все",
     registeredOnly: "Показаны только мои события",
+    authOpen: "Войти",
+    signOut: "Выйти",
+    signIn: "Войти",
+    signUp: "Зарегистрироваться",
+    createAccount: "Создать аккаунт",
+    haveAccount: "У меня уже есть аккаунт",
+    authEyebrowSignIn: "Аккаунт",
+    authEyebrowSignUp: "Новый аккаунт",
+    authSignInTitle: "Вход",
+    authSignUpTitle: "Регистрация",
+    authName: "Имя",
+    authPassword: "Пароль",
+    generatePassword: "Сгенерировать",
+    authPasswordTooShort: "Пароль должен быть не короче 6 символов",
+    authPasswordCyrillic: "Пароль не должен содержать русские буквы",
+    authNameRequired: "Введите имя",
+    authSupabaseMissing: "Добавьте Supabase URL и anon key в app.js",
+    authCheckEmail: "Проверьте почту для подтверждения аккаунта",
+    authWelcome: "Вы вошли",
+    authSignedOut: "Вы вышли из аккаунта",
+    authGreeting: "Привет, {name}",
+    authError: "Не удалось выполнить действие. Проверьте данные и попробуйте ещё раз.",
     subjects: {
       it: "IT",
       physics: "Физика",
@@ -766,6 +813,28 @@ const translations = {
     empty: "No events match the selected filters.",
     all: "All",
     registeredOnly: "Showing your events only",
+    authOpen: "Sign in",
+    signOut: "Sign out",
+    signIn: "Sign in",
+    signUp: "Sign up",
+    createAccount: "Create account",
+    haveAccount: "I already have an account",
+    authEyebrowSignIn: "Account",
+    authEyebrowSignUp: "New account",
+    authSignInTitle: "Sign in",
+    authSignUpTitle: "Registration",
+    authName: "Name",
+    authPassword: "Password",
+    generatePassword: "Generate",
+    authPasswordTooShort: "Password must be at least 6 characters",
+    authPasswordCyrillic: "Password must not contain Russian letters",
+    authNameRequired: "Enter your name",
+    authSupabaseMissing: "Add Supabase URL and anon key in app.js",
+    authCheckEmail: "Check your email to confirm the account",
+    authWelcome: "You are signed in",
+    authSignedOut: "You are signed out",
+    authGreeting: "Hi, {name}",
+    authError: "Could not complete the action. Check the details and try again.",
     subjects: {
       it: "IT",
       physics: "Physics",
@@ -1647,6 +1716,8 @@ const newsItemsBySubject = {
 
 const NEWS_REFRESH_INTERVAL = 5 * 60 * 60 * 1000;
 const HN_NEWS_URL = "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=18";
+const SUPABASE_URL = "https://lnqjsoqkybtxmboqisbw.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "PASTEeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWpzb3FreWJ0eG1ib3Fpc2J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTE0NzgsImV4cCI6MjA5ODgyNzQ3OH0.U_plSDL6ACvf-fpEZD2RZuvSA5mFZpiQoZ2tMAdN6-E";
 const newsColors = ["#0f766e", "#2563eb", "#be123c", "#c2410c", "#7c3aed", "#9333ea", "#0e7490", "#a16207"];
 const savedLang = localStorage.getItem("cc-lang");
 const savedTheme = localStorage.getItem("cc-theme");
@@ -1666,8 +1737,16 @@ const state = {
   activeEventId: null,
   newsItems: newsItemsBySubject[initialSubject],
   newsLastUpdated: null,
-  newsUsesFallback: true
+  newsUsesFallback: true,
+  authMode: "signin",
+  authUser: null,
+  authMessage: ""
 };
+
+const supabaseClient =
+  SUPABASE_URL.startsWith("http") && SUPABASE_ANON_KEY.length > 40 && window.supabase
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
 
 const els = {
   html: document.documentElement,
@@ -1695,7 +1774,23 @@ const els = {
   dialogLink: document.getElementById("dialogLink"),
   registerButton: document.getElementById("registerButton"),
   themeToggle: document.getElementById("themeToggle"),
-  themeIcon: document.getElementById("themeIcon")
+  themeIcon: document.getElementById("themeIcon"),
+  accountGreeting: document.getElementById("accountGreeting"),
+  authOpenButton: document.getElementById("authOpenButton"),
+  signOutButton: document.getElementById("signOutButton"),
+  authDialog: document.getElementById("authDialog"),
+  closeAuthDialog: document.getElementById("closeAuthDialog"),
+  authForm: document.getElementById("authForm"),
+  authTitle: document.getElementById("authTitle"),
+  authEyebrow: document.getElementById("authEyebrow"),
+  authName: document.getElementById("authName"),
+  authEmail: document.getElementById("authEmail"),
+  authPassword: document.getElementById("authPassword"),
+  nameField: document.getElementById("nameField"),
+  generatePassword: document.getElementById("generatePassword"),
+  authMessage: document.getElementById("authMessage"),
+  authSubmit: document.getElementById("authSubmit"),
+  authModeToggle: document.getElementById("authModeToggle")
 };
 
 function t(path) {
@@ -1778,6 +1873,27 @@ function renderStaticText() {
     const node = document.querySelector(`[data-i18n="${key}"]`);
     if (node) node.textContent = value;
   });
+  renderAuth();
+}
+
+function userDisplayName() {
+  return state.authUser?.user_metadata?.name || state.authUser?.email?.split("@")[0] || "";
+}
+
+function renderAuth() {
+  const isSignedIn = Boolean(state.authUser);
+  const name = userDisplayName();
+  els.accountGreeting.textContent = isSignedIn && name ? t("authGreeting").replace("{name}", name) : "";
+  els.authOpenButton.classList.toggle("hidden", isSignedIn);
+  els.signOutButton.classList.toggle("hidden", !isSignedIn);
+  els.nameField.classList.toggle("hidden", state.authMode !== "signup");
+  els.authName.required = state.authMode === "signup";
+  els.authPassword.autocomplete = state.authMode === "signup" ? "new-password" : "current-password";
+  els.authTitle.textContent = state.authMode === "signup" ? t("authSignUpTitle") : t("authSignInTitle");
+  els.authEyebrow.textContent = state.authMode === "signup" ? t("authEyebrowSignUp") : t("authEyebrowSignIn");
+  els.authSubmit.textContent = state.authMode === "signup" ? t("signUp") : t("signIn");
+  els.authModeToggle.textContent = state.authMode === "signup" ? t("haveAccount") : t("createAccount");
+  els.authMessage.textContent = state.authMessage;
 }
 
 function renderFilters() {
@@ -2105,19 +2221,132 @@ function updateRegisterButton() {
   els.registerButton.classList.toggle("is-registered", isRegistered);
 }
 
-function toggleRegistration() {
-  if (!state.activeEventId) return;
-  if (state.registered.has(state.activeEventId)) {
-    state.registered.delete(state.activeEventId);
-  } else {
-    state.registered.add(state.activeEventId);
+function eventSubject(eventId) {
+  return Object.keys(eventsBySubject).find((key) => eventsBySubject[key].some((event) => event.id === eventId)) || state.subject;
+}
+
+async function syncRegisteredEvents() {
+  if (!supabaseClient || !state.authUser) return;
+  const { data, error } = await supabaseClient.from("user_events").select("event_id").eq("user_id", state.authUser.id);
+  if (error) {
+    console.error("Could not load registered events", error);
+    return;
   }
-  localStorage.setItem("cc-registered", JSON.stringify([...state.registered]));
+  state.registered = new Set((data || []).map((row) => row.event_id));
+  renderCalendar();
+  renderEventList();
+  renderStats();
+}
+
+async function uploadLocalRegisteredEvents() {
+  if (!supabaseClient || !state.authUser) return;
+  const localIds = JSON.parse(localStorage.getItem("cc-registered") || "[]");
+  if (!localIds.length) return;
+  const rows = localIds.map((eventId) => ({
+    user_id: state.authUser.id,
+    event_id: eventId,
+    subject: eventSubject(eventId)
+  }));
+  const { error } = await supabaseClient.from("user_events").upsert(rows, { onConflict: "user_id,event_id" });
+  if (error) console.error("Could not upload local registered events", error);
+}
+
+async function saveRegisteredEvent(eventId, isRegistered) {
+  if (!supabaseClient || !state.authUser) return;
+  if (isRegistered) {
+    const { error } = await supabaseClient.from("user_events").upsert(
+      {
+        user_id: state.authUser.id,
+        event_id: eventId,
+        subject: eventSubject(eventId)
+      },
+      { onConflict: "user_id,event_id" }
+    );
+    if (error) console.error("Could not save registered event", error);
+    return;
+  }
+  const { error } = await supabaseClient.from("user_events").delete().eq("user_id", state.authUser.id).eq("event_id", eventId);
+  if (error) console.error("Could not delete registered event", error);
+}
+
+async function toggleRegistration() {
+  if (!state.activeEventId) return;
+  const eventId = state.activeEventId;
+  const willRegister = !state.registered.has(eventId);
+  if (state.registered.has(eventId)) {
+    state.registered.delete(eventId);
+  } else {
+    state.registered.add(eventId);
+  }
+  if (state.authUser) {
+    await saveRegisteredEvent(eventId, willRegister);
+  } else {
+    localStorage.setItem("cc-registered", JSON.stringify([...state.registered]));
+  }
   updateRegisterButton();
   renderCalendar();
   renderEventList();
   renderStats();
   scheduleLayoutSync();
+}
+
+function openAuthDialog(mode = "signin") {
+  state.authMode = mode;
+  state.authMessage = supabaseClient ? "" : t("authSupabaseMissing");
+  renderAuth();
+  if (!els.authDialog.open) els.authDialog.showModal();
+}
+
+async function handleAuthSubmit(event) {
+  event.preventDefault();
+  if (!supabaseClient) {
+    state.authMessage = t("authSupabaseMissing");
+    renderAuth();
+    return;
+  }
+
+  const name = els.authName.value.trim();
+  const email = els.authEmail.value.trim();
+  const password = els.authPassword.value;
+  const passwordError = validateAuthPassword(password);
+  if (state.authMode === "signup" && !name) {
+    state.authMessage = t("authNameRequired");
+    renderAuth();
+    return;
+  }
+  if (passwordError) {
+    state.authMessage = t(passwordError);
+    renderAuth();
+    return;
+  }
+
+  const result =
+    state.authMode === "signup"
+      ? await supabaseClient.auth.signUp({ email, password, options: { data: { name } } })
+      : await supabaseClient.auth.signInWithPassword({ email, password });
+
+  if (result.error) {
+    state.authMessage = result.error.message || t("authError");
+    renderAuth();
+    return;
+  }
+
+  state.authUser = result.data.session?.user || null;
+  state.authMessage = state.authUser ? t("authWelcome") : t("authCheckEmail");
+  if (state.authUser) {
+    await uploadLocalRegisteredEvents();
+    await syncRegisteredEvents();
+    els.authDialog.close();
+  }
+  render();
+}
+
+async function signOut() {
+  if (supabaseClient) await supabaseClient.auth.signOut();
+  state.authUser = null;
+  state.authMessage = t("authSignedOut");
+  state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
+  render();
 }
 
 document.getElementById("prevMonth").addEventListener("click", () => {
@@ -2198,6 +2427,23 @@ els.dialog.addEventListener("click", (event) => {
   if (event.target === els.dialog) els.dialog.close();
 });
 els.registerButton.addEventListener("click", toggleRegistration);
+els.authOpenButton.addEventListener("click", () => openAuthDialog("signin"));
+els.signOutButton.addEventListener("click", signOut);
+els.closeAuthDialog.addEventListener("click", () => els.authDialog.close());
+els.authDialog.addEventListener("click", (event) => {
+  if (event.target === els.authDialog) els.authDialog.close();
+});
+els.authModeToggle.addEventListener("click", () => {
+  state.authMode = state.authMode === "signup" ? "signin" : "signup";
+  state.authMessage = "";
+  renderAuth();
+});
+els.generatePassword.addEventListener("click", () => {
+  els.authPassword.value = generatePassword();
+  state.authMessage = "";
+  renderAuth();
+});
+els.authForm.addEventListener("submit", handleAuthSubmit);
 window.addEventListener("resize", scheduleLayoutSync);
 window.addEventListener("load", scheduleLayoutSync);
 
@@ -2214,3 +2460,23 @@ if ("ResizeObserver" in window) {
 render();
 refreshNews();
 setInterval(refreshNews, NEWS_REFRESH_INTERVAL);
+
+if (supabaseClient) {
+  supabaseClient.auth.getUser().then(async ({ data }) => {
+    state.authUser = data.user;
+    if (state.authUser) {
+      await uploadLocalRegisteredEvents();
+      await syncRegisteredEvents();
+    }
+    renderAuth();
+  });
+  supabaseClient.auth.onAuthStateChange(async (_event, session) => {
+    state.authUser = session?.user || null;
+    if (state.authUser) {
+      await uploadLocalRegisteredEvents();
+      await syncRegisteredEvents();
+    }
+    render();
+  });
+}
+}

@@ -42,6 +42,11 @@
           <button class="icon-button" id="themeToggle" type="button" aria-label="Toggle theme" title="Toggle theme">
             <span id="themeIcon">☾</span>
           </button>
+          <div class="account-control">
+            <span class="account-greeting" id="accountGreeting"></span>
+            <button class="text-button" id="authOpenButton" type="button" data-i18n="authOpen">Войти</button>
+            <button class="text-button hidden" id="signOutButton" type="button" data-i18n="signOut">Выйти</button>
+          </div>
         </div>
       </header>
 
@@ -134,6 +139,37 @@
       </div>
     </dialog>
 
+    <dialog class="auth-dialog" id="authDialog">
+      <button class="dialog-close" id="closeAuthDialog" type="button" aria-label="Close">×</button>
+      <form class="auth-form" id="authForm">
+        <div>
+          <p class="eyebrow" id="authEyebrow" data-i18n="authEyebrowSignIn">Аккаунт</p>
+          <h2 id="authTitle" data-i18n="authSignInTitle">Вход</h2>
+        </div>
+        <label class="auth-field" id="nameField">
+          <span data-i18n="authName">Имя</span>
+          <input id="authName" name="name" type="text" autocomplete="name" maxlength="40" />
+        </label>
+        <label class="auth-field">
+          <span>Email</span>
+          <input id="authEmail" name="email" type="email" autocomplete="email" required />
+        </label>
+        <label class="auth-field">
+          <span data-i18n="authPassword">Пароль</span>
+          <div class="password-row">
+            <input id="authPassword" name="password" type="password" autocomplete="current-password" minlength="6" required />
+            <button class="text-button" id="generatePassword" type="button" data-i18n="generatePassword">Сгенерировать</button>
+          </div>
+        </label>
+        <p class="auth-message" id="authMessage" role="status"></p>
+        <div class="auth-actions">
+          <button class="primary-button" id="authSubmit" type="submit" data-i18n="signIn">Войти</button>
+          <button class="text-button" id="authModeToggle" type="button" data-i18n="createAccount">Создать аккаунт</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
   </body>
 </html>
