@@ -1,4 +1,5 @@
 const CYRILLIC_PATTERN = /[А-Яа-яЁё]/;
+const EMAIL_DOMAINS = ["gmail.com", "mail.ru", "yandex.ru", "outlook.com", "icloud.com", "yahoo.com", "proton.me", "rambler.ru"];
 
 function validateAuthPassword(password) {
   if (password.length < 6) return "authPasswordTooShort";
@@ -6,8 +7,32 @@ function validateAuthPassword(password) {
   return "";
 }
 
+function validateAuthEmail(email) {
+  if (email.length < 6) return "authEmailTooShort";
+  const atIndex = email.indexOf("@");
+  if (atIndex <= 0) return "authEmailAtMissing";
+  const domain = email.slice(atIndex + 1);
+  const dotIndex = domain.lastIndexOf(".");
+  if (dotIndex <= 0 || domain.length - dotIndex - 1 < 2) return "authEmailDomainInvalid";
+  return "";
+}
+
+function emailSuggestions(email) {
+  const [local, typedDomain = ""] = email.split("@");
+  if (!local) return [];
+  if (!email.includes("@")) {
+    const domainHint = EMAIL_DOMAINS.find((domain) => local.toLowerCase().includes(domain.split(".")[0]));
+    if (!domainHint) return [];
+    const name = local.slice(0, local.toLowerCase().indexOf(domainHint.split(".")[0]));
+    if (!name) return [];
+    return emailSuggestions(`${name}@${local.slice(name.length)}`);
+  }
+  const domainPart = typedDomain.toLowerCase();
+  return EMAIL_DOMAINS.filter((domain) => domain.startsWith(domainPart) || domain.includes(domainPart)).map((domain) => `${local}@${domain}`);
+}
+
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { validateAuthPassword };
+  module.exports = { validateAuthPassword, validateAuthEmail, emailSuggestions };
 }
 
 if (typeof window !== "undefined") {
@@ -51,6 +76,9 @@ const translations = {
     authPassword: "Пароль",
     authPasswordTooShort: "Пароль должен быть не короче 6 символов",
     authPasswordCyrillic: "Пароль не должен содержать русские буквы",
+    authEmailTooShort: "Email должен быть не короче 6 символов",
+    authEmailAtMissing: "Email должен содержать @",
+    authEmailDomainInvalid: "После @ должен быть домен с точкой",
     authNameRequired: "Введите имя",
     authSupabaseMissing: "Добавьте Supabase URL и anon key в app.js",
     authCheckEmail: "Проверьте почту для подтверждения аккаунта",
@@ -814,6 +842,9 @@ const translations = {
     authPassword: "Password",
     authPasswordTooShort: "Password must be at least 6 characters",
     authPasswordCyrillic: "Password must not contain Russian letters",
+    authEmailTooShort: "Email must be at least 6 characters",
+    authEmailAtMissing: "Email must include @",
+    authEmailDomainInvalid: "After @, add a domain with a dot",
     authNameRequired: "Enter your name",
     authSupabaseMissing: "Add Supabase URL and anon key in app.js",
     authCheckEmail: "Check your email to confirm the account",
@@ -1771,6 +1802,7 @@ const els = {
   authEyebrow: document.getElementById("authEyebrow"),
   authName: document.getElementById("authName"),
   authEmail: document.getElementById("authEmail"),
+  emailSuggestions: document.getElementById("emailSuggestions"),
   authPasswordSignIn: document.getElementById("authPasswordSignIn") || document.getElementById("authPassword"),
   authPasswordSignUp: document.getElementById("authPasswordSignUp") || document.getElementById("authPassword"),
   passwordSignInField: document.getElementById("passwordSignInField"),
@@ -1885,6 +1917,14 @@ function renderAuth() {
   els.authSubmit.textContent = state.authMode === "signup" ? t("signUp") : t("signIn");
   els.authModeToggle.textContent = state.authMode === "signup" ? t("haveAccount") : t("createAccount");
   els.authMessage.textContent = state.authMessage;
+}
+
+function renderEmailSuggestions() {
+  const options = emailSuggestions(els.authEmail.value.trim())
+    .slice(0, 6)
+    .map((email) => `<option value="${email}"></option>`)
+    .join("");
+  els.emailSuggestions.innerHTML = options;
 }
 
 function renderFilters() {
@@ -2299,9 +2339,15 @@ async function handleAuthSubmit(event) {
   const name = els.authName.value.trim();
   const email = els.authEmail.value.trim();
   const password = state.authMode === "signup" ? els.authPasswordSignUp.value : els.authPasswordSignIn.value;
+  const emailError = validateAuthEmail(email);
   const passwordError = validateAuthPassword(password);
   if (state.authMode === "signup" && !name) {
     state.authMessage = t("authNameRequired");
+    renderAuth();
+    return;
+  }
+  if (emailError) {
+    state.authMessage = t(emailError);
     renderAuth();
     return;
   }
@@ -2431,6 +2477,7 @@ els.authModeToggle.addEventListener("click", () => {
   if (els.authPasswordSignUp && els.authPasswordSignUp !== els.authPasswordSignIn) els.authPasswordSignUp.value = "";
   renderAuth();
 });
+els.authEmail.addEventListener("input", renderEmailSuggestions);
 els.authForm.addEventListener("submit", handleAuthSubmit);
 window.addEventListener("resize", scheduleLayoutSync);
 window.addEventListener("load", scheduleLayoutSync);

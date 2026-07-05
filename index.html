@@ -152,7 +152,8 @@
         </label>
         <label class="auth-field">
           <span>Email</span>
-          <input id="authEmail" name="email" type="email" autocomplete="email" required />
+          <input id="authEmail" name="email" type="email" autocomplete="email" list="emailSuggestions" minlength="6" required />
+          <datalist id="emailSuggestions"></datalist>
         </label>
         <label class="auth-field" id="passwordSignInField">
           <span data-i18n="authPassword">Пароль</span>

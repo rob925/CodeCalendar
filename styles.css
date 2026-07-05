@@ -957,6 +957,13 @@ body[data-subject="math"] .shader-grid {
   color: var(--text);
   background: var(--surface-solid);
   box-shadow: var(--shadow);
+  overflow: visible;
+  z-index: 100;
+}
+
+.auth-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(6px);
 }
 
 .auth-form {
@@ -981,7 +988,7 @@ body[data-subject="math"] .shader-grid {
   width: 100%;
   min-width: 0;
   min-height: 42px;
-  padding: 0 12px;
+  padding: 0 44px 0 12px;
   border: 1px solid var(--line);
   border-radius: 8px;
   color: var(--text);
