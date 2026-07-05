@@ -1807,8 +1807,12 @@ const els = {
   authTitle: document.getElementById("authTitle"),
   authEyebrow: document.getElementById("authEyebrow"),
   authName: document.getElementById("authName"),
-  authEmail: document.getElementById("authEmail"),
-  emailGhost: document.getElementById("emailGhost"),
+  authEmailSignIn: document.getElementById("authEmailSignIn") || document.getElementById("authEmail"),
+  authEmailSignUp: document.getElementById("authEmailSignUp") || document.getElementById("authEmail"),
+  emailGhostSignIn: document.getElementById("emailGhostSignIn") || document.getElementById("emailGhost"),
+  emailGhostSignUp: document.getElementById("emailGhostSignUp") || document.getElementById("emailGhost"),
+  emailSignInField: document.getElementById("emailSignInField"),
+  emailSignUpField: document.getElementById("emailSignUpField"),
   authPasswordSignIn: document.getElementById("authPasswordSignIn") || document.getElementById("authPassword"),
   authPasswordSignUp: document.getElementById("authPasswordSignUp") || document.getElementById("authPassword"),
   passwordSignInField: document.getElementById("passwordSignInField"),
@@ -1914,6 +1918,10 @@ function renderAuth() {
   els.signOutButton.classList.toggle("hidden", !isSignedIn);
   els.nameField.classList.toggle("hidden", state.authMode !== "signup");
   els.authName.required = state.authMode === "signup";
+  els.emailSignInField?.classList.toggle("hidden", state.authMode === "signup");
+  els.emailSignUpField?.classList.toggle("hidden", state.authMode !== "signup");
+  if (els.authEmailSignIn) els.authEmailSignIn.required = state.authMode !== "signup";
+  if (els.authEmailSignUp) els.authEmailSignUp.required = state.authMode === "signup";
   els.passwordSignInField?.classList.toggle("hidden", state.authMode === "signup");
   els.passwordSignUpField?.classList.toggle("hidden", state.authMode !== "signup");
   if (els.authPasswordSignIn) els.authPasswordSignIn.required = state.authMode !== "signup";
@@ -1926,14 +1934,24 @@ function renderAuth() {
 }
 
 function renderEmailSuggestions() {
-  const typed = els.authEmail.value.trim();
+  const input = activeEmailInput();
+  const ghostNode = activeEmailGhost();
+  const typed = input.value.trim();
   const ghost = emailGhostSuggestion(typed);
-  els.emailGhost.textContent = ghost && ghost.startsWith(typed) ? `${typed}${ghost.slice(typed.length)}` : "";
+  if (ghostNode) ghostNode.textContent = ghost && ghost.startsWith(typed) ? `${typed}${ghost.slice(typed.length)}` : "";
 }
 
 function applyEmailSuggestion(email) {
-  els.authEmail.value = email;
+  activeEmailInput().value = email;
   renderEmailSuggestions();
+}
+
+function activeEmailInput() {
+  return state.authMode === "signup" ? els.authEmailSignUp : els.authEmailSignIn;
+}
+
+function activeEmailGhost() {
+  return state.authMode === "signup" ? els.emailGhostSignUp : els.emailGhostSignIn;
 }
 
 function renderFilters() {
@@ -2333,7 +2351,9 @@ async function toggleRegistration() {
 function openAuthDialog(mode = "signin") {
   state.authMode = mode;
   state.authMessage = supabaseClient ? "" : t("authSupabaseMissing");
+  if (mode === "signup" && els.authEmailSignUp) els.authEmailSignUp.value = "";
   renderAuth();
+  renderEmailSuggestions();
   if (!els.authDialog.open) els.authDialog.showModal();
 }
 
@@ -2346,7 +2366,7 @@ async function handleAuthSubmit(event) {
   }
 
   const name = els.authName.value.trim();
-  const email = els.authEmail.value.trim();
+  const email = activeEmailInput().value.trim();
   const password = state.authMode === "signup" ? els.authPasswordSignUp.value : els.authPasswordSignIn.value;
   const emailError = validateAuthEmail(email);
   const passwordError = validateAuthPassword(password);
@@ -2387,12 +2407,16 @@ async function handleAuthSubmit(event) {
   render();
 }
 
-async function signOut() {
-  if (supabaseClient) await supabaseClient.auth.signOut();
+function signOut() {
   state.authUser = null;
   state.authMessage = t("authSignedOut");
   state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
   render();
+  if (supabaseClient) {
+    supabaseClient.auth.signOut().catch((error) => {
+      console.error("Could not finish Supabase sign out", error);
+    });
+  }
 }
 
 document.getElementById("prevMonth").addEventListener("click", () => {
@@ -2482,19 +2506,26 @@ els.authDialog.addEventListener("click", (event) => {
 els.authModeToggle.addEventListener("click", () => {
   state.authMode = state.authMode === "signup" ? "signin" : "signup";
   state.authMessage = "";
+  if (els.emailGhostSignIn) els.emailGhostSignIn.textContent = "";
+  if (els.emailGhostSignUp) els.emailGhostSignUp.textContent = "";
+  if (state.authMode === "signup" && els.authEmailSignUp) els.authEmailSignUp.value = "";
   if (els.authPasswordSignIn) els.authPasswordSignIn.value = "";
   if (els.authPasswordSignUp && els.authPasswordSignUp !== els.authPasswordSignIn) els.authPasswordSignUp.value = "";
   renderAuth();
+  renderEmailSuggestions();
 });
-els.authEmail.addEventListener("input", renderEmailSuggestions);
-els.authEmail.addEventListener("keydown", (event) => {
-  if (event.key === "Tab") {
-    const suggestion = emailGhostSuggestion(els.authEmail.value.trim());
-    if (suggestion) {
-      event.preventDefault();
-      applyEmailSuggestion(suggestion);
+[els.authEmailSignIn, els.authEmailSignUp].forEach((input) => {
+  if (!input) return;
+  input.addEventListener("input", renderEmailSuggestions);
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Tab") {
+      const suggestion = emailGhostSuggestion(input.value.trim());
+      if (suggestion) {
+        event.preventDefault();
+        applyEmailSuggestion(suggestion);
+      }
     }
-  }
+  });
 });
 els.authForm.addEventListener("submit", handleAuthSubmit);
 window.addEventListener("resize", scheduleLayoutSync);

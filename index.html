@@ -150,11 +150,18 @@
           <span data-i18n="authName">Имя</span>
           <input id="authName" name="name" type="text" autocomplete="name" maxlength="40" />
         </label>
-        <label class="auth-field">
+        <label class="auth-field" id="emailSignInField">
           <span>Email</span>
           <span class="email-combobox">
-            <span class="email-ghost" id="emailGhost"></span>
-            <input id="authEmail" name="email" type="email" autocomplete="email" minlength="6" required />
+            <span class="email-ghost" id="emailGhostSignIn"></span>
+            <input id="authEmailSignIn" name="email" type="email" autocomplete="email" minlength="6" required />
+          </span>
+        </label>
+        <label class="auth-field hidden" id="emailSignUpField">
+          <span>Email</span>
+          <span class="email-combobox">
+            <span class="email-ghost" id="emailGhostSignUp"></span>
+            <input id="authEmailSignUp" name="signup-email" type="email" autocomplete="off" minlength="6" />
           </span>
         </label>
         <label class="auth-field" id="passwordSignInField">
