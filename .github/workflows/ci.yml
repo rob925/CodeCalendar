@@ -45,6 +45,8 @@ jobs:
         run: |
           node --check app.js
           node --check data/calendar-data.js
+          node --check lib/live-news.js
+          node --check pages/api/news.js
           node --check next.config.js
           node --check playwright.config.js
 

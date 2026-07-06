@@ -12,10 +12,64 @@ async function collectConsoleErrors(page) {
 async function bootApp(page, viewport) {
   if (viewport) await page.setViewportSize(viewport);
   await page.route("https://hn.algolia.com/**", (route) => route.abort());
+  await page.route("**/api/news?subject=**", async (route) => {
+    const subject = new URL(route.request().url()).searchParams.get("subject") || "physics";
+    await route.fulfill({
+      contentType: "application/json",
+      body: JSON.stringify({
+        subject,
+        updatedAt: "2026-07-04T12:00:00.000Z",
+        items: [
+          {
+            id: `${subject}-e2e-live-1`,
+            live: true,
+            date: "2026-07-04",
+            color: "#0e7490",
+            url: "https://arxiv.org/abs/2607.00001",
+            copy: {
+              ru: {
+                title: `${subject} live digest`,
+                summary: "Свежая live-новость для e2e. Источник: arXiv.",
+                tag: `arXiv ${subject}`,
+                source: "arXiv"
+              },
+              en: {
+                title: `${subject} live digest`,
+                summary: "Fresh live news for e2e. Source: arXiv.",
+                tag: `arXiv ${subject}`,
+                source: "arXiv"
+              }
+            }
+          },
+          {
+            id: `${subject}-e2e-live-2`,
+            live: true,
+            date: "2026-07-03",
+            color: "#2563eb",
+            url: "https://arxiv.org/abs/2607.00002",
+            copy: {
+              ru: {
+                title: `${subject} second live digest`,
+                summary: "Вторая live-новость для e2e. Источник: arXiv.",
+                tag: `arXiv ${subject}`,
+                source: "arXiv"
+              },
+              en: {
+                title: `${subject} second live digest`,
+                summary: "Second live news for e2e. Source: arXiv.",
+                tag: `arXiv ${subject}`,
+                source: "arXiv"
+              }
+            }
+          }
+        ]
+      })
+    });
+  });
   const errors = await collectConsoleErrors(page);
   await page.goto("/");
   await expect(page.locator("#calendarGrid .calendar-cell")).toHaveCount(42);
-  await expect(page.locator("#eventList .event-card").first()).toBeVisible();
+  await expect(page.locator("#calendarGrid .event-chip").first()).toBeVisible();
   return errors;
 }
 
@@ -31,7 +85,7 @@ test.describe("CodeCalendar e2e", () => {
     const visibleCount = Number(await page.locator("#visibleCount").innerText());
     await expect(visibleCount).toBeGreaterThan(0);
 
-    await page.locator("#eventList .event-card").first().click();
+    await page.locator("#calendarGrid .event-chip").first().click();
     await expect(page.locator("#eventDialog")).toBeVisible();
     await expect(page.locator("#dialogTitle")).not.toBeEmpty();
     await expect(page.locator("#dialogDescription")).not.toBeEmpty();
@@ -41,7 +95,7 @@ test.describe("CodeCalendar e2e", () => {
     await page.locator("#registerButton").click();
     await expect(page.locator("#registerButton")).toHaveClass(/is-registered/);
     await expect(page.locator("#registeredCount")).toHaveText("1");
-    await expect(page.locator("#eventList .event-card.is-registered").first()).toBeVisible();
+    await expect(page.locator("#eventList .event-card.is-registered").first()).toBeAttached();
 
     await page.locator("#closeDialog").click();
     await expect(page.locator("#eventDialog")).not.toBeVisible();

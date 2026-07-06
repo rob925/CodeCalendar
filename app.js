@@ -52,6 +52,7 @@ if (!translations || !categoriesBySubject || !eventsBySubject || !newsItemsBySub
   throw new Error("CodeCalendar data must be loaded before app.js");
 }
 const NEWS_REFRESH_INTERVAL = 5 * 60 * 60 * 1000;
+const LIVE_NEWS_CACHE_TTL = 14 * 24 * 60 * 60 * 1000;
 const HN_NEWS_URL = "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=18";
 const SUPABASE_URL = "https://lnqjsoqkybtxmboqisbw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWpzb3FreWJ0eG1ib3Fpc2J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTE0NzgsImV4cCI6MjA5ODgyNzQ3OH0.U_plSDL6ACvf-fpEZD2RZuvSA5mFZpiQoZ2tMAdN6-E";
@@ -166,6 +167,61 @@ function currentEvents() {
 
 function currentFallbackNews() {
   return newsItemsBySubject[state.subject] || newsItemsBySubject.it;
+}
+
+function liveNewsCacheKey(subject) {
+  return `cc-live-news-${subject}`;
+}
+
+function liveNewsEndpoint(subject) {
+  return `/api/news?subject=${encodeURIComponent(subject)}`;
+}
+
+function isLiveNewsSubject(subject) {
+  return subject === "physics" || subject === "math";
+}
+
+function readLiveNewsCache(subject) {
+  try {
+    const cache = JSON.parse(localStorage.getItem(liveNewsCacheKey(subject)) || "null");
+    if (!cache || !Array.isArray(cache.items) || !cache.items.length || !cache.savedAt) return null;
+    if (Date.now() - cache.savedAt > LIVE_NEWS_CACHE_TTL) return null;
+    return cache;
+  } catch {
+    return null;
+  }
+}
+
+function writeLiveNewsCache(subject, items) {
+  localStorage.setItem(
+    liveNewsCacheKey(subject),
+    JSON.stringify({
+      savedAt: Date.now(),
+      items
+    })
+  );
+}
+
+function mergeLiveNewsItems(primaryItems, secondaryItems = []) {
+  const seen = new Set();
+  return [...primaryItems, ...secondaryItems]
+    .filter((item) => {
+      const key = item.id || item.url || item.copy?.en?.title || item.copy?.ru?.title;
+      if (!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .slice(0, 8);
+}
+
+function applyLiveNewsItems(subject, items, updatedAt = new Date()) {
+  if (state.subject !== subject) return false;
+  state.newsItems = items;
+  state.newsLastUpdated = updatedAt;
+  state.newsUsesFallback = false;
+  renderNews();
+  scheduleLayoutSync();
+  return true;
 }
 
 function eventCopy(event) {
@@ -503,12 +559,33 @@ function mapHackerNewsItems(hits) {
 async function refreshNews() {
   const requestedSubject = state.subject;
 
-  if (requestedSubject !== "it") {
-    state.newsItems = currentFallbackNews();
-    state.newsLastUpdated = null;
-    state.newsUsesFallback = true;
-    renderNews();
-    scheduleLayoutSync();
+  if (isLiveNewsSubject(requestedSubject)) {
+    const cached = readLiveNewsCache(requestedSubject);
+    if (cached) {
+      applyLiveNewsItems(requestedSubject, cached.items, new Date(cached.savedAt));
+    }
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    try {
+      const response = await fetch(liveNewsEndpoint(requestedSubject), { signal: controller.signal });
+      if (!response.ok) throw new Error(`News request failed: ${response.status}`);
+      const data = await response.json();
+      if (!Array.isArray(data.items) || data.items.length < 2) throw new Error("Not enough live news items");
+
+      const mergedItems = mergeLiveNewsItems(data.items, cached?.items);
+      writeLiveNewsCache(requestedSubject, mergedItems);
+      applyLiveNewsItems(requestedSubject, mergedItems, data.updatedAt ? new Date(data.updatedAt) : new Date());
+    } catch {
+      if (state.subject !== requestedSubject || cached) return;
+      state.newsItems = currentFallbackNews();
+      state.newsLastUpdated = null;
+      state.newsUsesFallback = true;
+      renderNews();
+      scheduleLayoutSync();
+    } finally {
+      clearTimeout(timeoutId);
+    }
     return;
   }
 
