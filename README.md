@@ -27,7 +27,7 @@ CodeCalendar начинался как статическое приложени
 - **SSR:** Next.js 15
 - **Auth и данные пользователя:** Supabase Auth, Supabase table `user_events`, RLS policies
 - **Деплой:** Vercel
-- **Тесты:** Node-based smoke/unit tests для auth и SSR
+- **Тесты:** Node-based smoke/unit tests, Playwright e2e для UI, mobile и auth-form сценариев
 
 ## Архитектура
 
@@ -83,9 +83,17 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 ## Проверки
 
+Перед первым запуском e2e на новой машине установи браузер Playwright:
+
+```powershell
+npx playwright install chromium
+```
+
 ```powershell
 npm test
+npm run test:e2e
 node --check app.js
+node --check data/calendar-data.js
 node --check next.config.js
 npm run build
 ```
@@ -101,18 +109,19 @@ npm audit --audit-level=moderate
 ```text
 pages/index.jsx              SSR-страница Next.js и Supabase server/browser clients
 pages/_app.jsx               подключение глобальных стилей
+pages/_document.jsx          базовый HTML-документ и подключение Google Fonts
 lib/supabase-config.js       публичная Supabase-конфигурация из env с fallback
 index.html                   HTML-шаблон приложения
 data/calendar-data.js        переводы, категории, события и новости
 app.js                       состояние, рендеринг и клиентская синхронизация
 styles.css                   темы, layout, адаптивность и визуальные эффекты
-tests/                       проверки данных, auth, email utils и SSR
+tests/                       проверки данных, auth, email utils, SSR и e2e
+playwright.config.js         e2e-конфигурация с автозапуском Next dev server
 docs/vercel-ssr-setup.md     заметки по деплою на Vercel
 docs/supabase-setup.md       настройка Supabase table, RLS и auth
 ```
 
 ## Возможные улучшения
 
-- добавить e2e-проверки мобильной версии и auth-сценариев;
 - расширить набор live-источников новостей для физики и математики;
 - постепенно перевести legacy runtime на компонентную структуру React.

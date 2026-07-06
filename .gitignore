@@ -17,3 +17,5 @@ Thumbs.db
 node_modules/
 out/
 .vercel/
+playwright-report/
+test-results/
