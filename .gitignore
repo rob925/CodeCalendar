@@ -13,3 +13,6 @@ Thumbs.db
 
 *.log
 *.zip
+.next/
+node_modules/
+out/

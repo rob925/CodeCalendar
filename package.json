@@ -1,0 +1,25 @@
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node tests/auth-session.test.js && node tests/auth-email.test.js && node tests/auth-utils.test.js && node tests/next-ssr.test.js"
+  },
+  "dependencies": {
+    "@supabase/ssr": "0.8.0",
+    "@supabase/supabase-js": "2.110.0",
+    "cookie": "1.1.1",
+    "next": "15.5.20",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "postcss": "8.5.10"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "overrides": {
+    "postcss": "$postcss"
+  }
+}

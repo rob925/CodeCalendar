@@ -39,7 +39,7 @@ function emailGhostSuggestion(email) {
 }
 
 function shouldRestoreAuthSession(value) {
-  return value === "1";
+  return value !== "0";
 }
 
 if (typeof module !== "undefined" && module.exports) {
@@ -1753,6 +1753,8 @@ const HN_NEWS_URL = "https://hn.algolia.com/api/v1/search_by_date?tags=story&hit
 const SUPABASE_URL = "https://lnqjsoqkybtxmboqisbw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWpzb3FreWJ0eG1ib3Fpc2J3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMyNTE0NzgsImV4cCI6MjA5ODgyNzQ3OH0.U_plSDL6ACvf-fpEZD2RZuvSA5mFZpiQoZ2tMAdN6-E";
 const newsColors = ["#0f766e", "#2563eb", "#be123c", "#c2410c", "#7c3aed", "#9333ea", "#0e7490", "#a16207"];
+const initialServerState = window.__CODECALENDAR_INITIAL_STATE__ || {};
+const initialRegisteredEvents = Array.isArray(initialServerState.registered) ? initialServerState.registered : null;
 const savedLang = localStorage.getItem("cc-lang");
 const savedTheme = localStorage.getItem("cc-theme");
 const savedSubject = localStorage.getItem("cc-subject");
@@ -1767,26 +1769,23 @@ const state = {
   month: new Date(2026, 6, 1),
   activeCategory: "all",
   registeredOnly: false,
-  registered: new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]")),
+  registered: new Set(initialServerState.user && initialRegisteredEvents ? initialRegisteredEvents : JSON.parse(localStorage.getItem("cc-registered") || "[]")),
   activeEventId: null,
   newsItems: newsItemsBySubject[initialSubject],
   newsLastUpdated: null,
   newsUsesFallback: true,
   authMode: "signin",
-  authUser: null,
+  authUser: initialServerState.user || null,
   authMessage: "",
   authPending: false,
   authSessionRequest: 0
 };
 
 const supabaseClient =
-  SUPABASE_URL.startsWith("http") && SUPABASE_ANON_KEY.length > 40 && window.supabase
+  window.__CODECALENDAR_SUPABASE_CLIENT__ ||
+  (SUPABASE_URL.startsWith("http") && SUPABASE_ANON_KEY.length > 40 && window.supabase
     ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-    : null;
-
-function hasActiveAuthSession() {
-  return shouldRestoreAuthSession(localStorage.getItem(AUTH_ACTIVE_KEY));
-}
+    : null);
 
 function markAuthActive() {
   localStorage.setItem(AUTH_ACTIVE_KEY, "1");
@@ -1794,18 +1793,6 @@ function markAuthActive() {
 
 function clearAuthActive() {
   localStorage.removeItem(AUTH_ACTIVE_KEY);
-}
-
-function clearStaleAuthSession() {
-  state.authSessionRequest += 1;
-  state.authUser = null;
-  state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
-  render();
-  if (supabaseClient) {
-    supabaseClient.auth.signOut().catch((error) => {
-      console.error("Could not clear stale Supabase session", error);
-    });
-  }
 }
 
 const els = {
@@ -1980,10 +1967,7 @@ function renderAuth() {
 
 async function refreshAuthSession() {
   if (!supabaseClient) return;
-  if (!hasActiveAuthSession()) {
-    clearStaleAuthSession();
-    return;
-  }
+  if (!shouldRestoreAuthSession(localStorage.getItem(AUTH_ACTIVE_KEY))) return;
   const requestId = ++state.authSessionRequest;
   let data;
   let error;
@@ -2000,6 +1984,8 @@ async function refreshAuthSession() {
   }
   state.authUser = data.session?.user || null;
   if (state.authUser) {
+    markAuthActive();
+    render();
     try {
       await withTimeout(uploadLocalRegisteredEvents(), 15000);
       if (requestId !== state.authSessionRequest) return;
@@ -2009,9 +1995,10 @@ async function refreshAuthSession() {
       console.error("Could not sync registered events", syncError);
     }
   } else {
+    clearAuthActive();
     state.registered = new Set(JSON.parse(localStorage.getItem("cc-registered") || "[]"));
+    render();
   }
-  render();
 }
 
 function renderEmailSuggestions() {
@@ -2676,21 +2663,21 @@ setInterval(refreshNews, NEWS_REFRESH_INTERVAL);
 if (supabaseClient) {
   refreshAuthSession();
   supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-    if (session?.user && !hasActiveAuthSession() && !state.authPending) {
-      clearStaleAuthSession();
-      return;
-    }
     state.authSessionRequest += 1;
     state.authUser = session?.user || null;
     if (state.authUser) {
+      markAuthActive();
+      render();
       try {
         await withTimeout(uploadLocalRegisteredEvents(), 15000);
         await withTimeout(syncRegisteredEvents(), 15000);
       } catch (error) {
         console.error("Could not sync registered events on auth state change", error);
       }
+    } else {
+      clearAuthActive();
+      render();
     }
-    render();
   });
 }
 }
