@@ -16,3 +16,4 @@ Thumbs.db
 .next/
 node_modules/
 out/
+.vercel/
