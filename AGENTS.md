@@ -2,7 +2,7 @@
 
 ## Назначение
 
-CodeCalendar — статический календарь событий для трёх направлений: IT, физика и математика.
+CodeCalendar — SSR-календарь событий для трёх направлений: IT, физика и математика.
 Пользователь смотрит события по месяцам, фильтрует категории, открывает подробности, переходит к источнику и регистрируется в один клик.
 
 Поддерживается:
@@ -13,16 +13,65 @@ CodeCalendar — статический календарь событий для
 - предметные категории, события, новости и hero-тексты;
 - календарь, список событий, модалка и режим «Мои события».
 
+## Текущая Архитектура
+
+- Проект теперь работает как Next.js SSR-приложение под Vercel.
+- `pages/index.jsx` серверно рендерит текущую разметку из `index.html`.
+- `app.js` остаётся legacy runtime: данные календаря, переводы, состояние, рендеринг и интерактивность.
+- Supabase остаётся источником авторизации и таблицы `user_events`.
+- SSR читает Supabase cookies, получает пользователя и его регистрации до первого рендера.
+- Клиент получает начальное состояние через `window.__CODECALENDAR_INITIAL_STATE__`.
+- После загрузки клиентский Supabase browser client продолжает auth/sync в фоне.
+- Целевой домен: `https://code-calendar-app.vercel.app`.
+
 ## Файлы
 
-- `index.html` — разметка приложения, шапка, hero, календарь, новости, список, модалка.
+- `pages/index.jsx` — SSR-страница Next.js, читает `index.html`, создаёт Supabase server/browser clients, передаёт `initialState`.
+- `pages/_app.jsx` — подключает глобальный `styles.css`.
+- `lib/supabase-config.js` — публичный Supabase URL/anon key из env с локальным fallback.
+- `index.html` — исходная HTML-разметка приложения без SSR-логики; используется серверной страницей как шаблон body.
 - `styles.css` — CSS-переменные, shader-фоны, сетки, карточки, адаптивность.
-- `app.js` — все данные и логика: переводы, категории, события, новости, состояние, рендеринг.
+- `app.js` — главный legacy runtime: переводы, категории, события, новости, состояние, рендеринг, auth UI, Supabase sync.
+- `package.json` — Next/Vercel scripts, зависимости и `engines.node >=22`.
+- `.env.example` — имена env-переменных для Vercel/local.
+- `docs/vercel-ssr-setup.md` — краткая инструкция по Vercel/Supabase env.
 - `save.ps1` — pull/rebase/autostash, commit и push.
+
+## Runtime И Деплой
+
+- Локально нужен Node 22+.
+- На этой машине portable Node лежит в `C:\Users\Maksim\.codex-tools\node-v22`.
+- Для команд в PowerShell можно временно добавить его в PATH:
+
+```powershell
+$env:PATH = "$env:USERPROFILE\.codex-tools\node-v22;$env:PATH"
+```
+
+- Локальный dev:
+
+```powershell
+npm install
+npm run dev
+```
+
+- Production build:
+
+```powershell
+npm run build
+```
+
+- Vercel project: `tituname/web`.
+- Vercel production alias: `https://code-calendar-app.vercel.app`.
+- Vercel env:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- Supabase Auth config:
+  - `site_url`: `https://code-calendar-app.vercel.app`
+  - `uri_allow_list`: `https://code-calendar-app.vercel.app/**,http://localhost:3000/**`
 
 ## Структура Данных
 
-Главный источник истины — `app.js`.
+Главный источник истины для календарных данных — `app.js`.
 
 - `translations.ru` / `translations.en` — все тексты.
 - `translations.*.subjects` — подписи предметного переключателя.
@@ -34,7 +83,20 @@ CodeCalendar — статический календарь событий для
 - `eventsBySubject` — события для `it`, `physics`, `math`.
 - `newsItemsBySubject` — fallback-новости для каждого предмета.
 - `state.subject` — текущий предмет, хранится как `cc-subject`.
-- `state.registered` — регистрации, хранятся как `cc-registered`.
+- `state.registered` — регистрации текущего пользователя.
+- Для гостей регистрации живут в `localStorage.cc-registered`.
+- Для авторизованных пользователей регистрации живут в Supabase `public.user_events`.
+- SSR может заполнить `state.authUser` и `state.registered` до фоновой клиентской синхронизации.
+
+## Auth И Supabase
+
+- Supabase проект: `CodeCalendar`, ref `lnqjsoqkybtxmboqisbw`.
+- Браузерный auth client создаётся в `pages/index.jsx` через `createBrowserClient()` и кладётся в `window.__CODECALENDAR_SUPABASE_CLIENT__`.
+- Server client создаётся в `getServerSideProps()` через `createServerClient()` и читает cookies из запроса.
+- Не возвращайся к CDN-only Supabase client как единственному auth источнику: тогда SSR снова не будет знать пользователя.
+- Не клади service role key в код, env или браузер. Используется только anon/public key.
+- Таблица `public.user_events`: `user_id`, `event_id`, `subject`, `created_at`, unique `(user_id, event_id)`.
+- RLS должен разрешать пользователю читать/писать/удалять только свои строки.
 
 ## Предметы
 
@@ -118,7 +180,10 @@ Physics и Math:
 - `renderNews()` — рисует digest.
 - `refreshNews()` — обновляет IT live-новости или ставит fallback.
 - `openEvent(id)` — открывает событие текущего предмета.
-- `toggleRegistration()` — пишет регистрацию в `cc-registered`.
+- `toggleRegistration()` — меняет регистрацию локально и синхронизирует Supabase для авторизованных пользователей.
+- `refreshAuthSession()` — обновляет пользователя из Supabase и не должен блокировать первый показ профиля долгой синхронизацией.
+- `syncRegisteredEvents()` — читает регистрации из Supabase.
+- `uploadLocalRegisteredEvents()` — переносит гостевые регистрации в аккаунт.
 - `syncEventPanelHeight()` — выравнивает правую панель на desktop.
 
 ## UI И Фоны
@@ -161,9 +226,22 @@ Shader-фоны:
 - Новость: добавь запись в `newsItemsBySubject[subject]`, затем `translations.ru.news[id]` и `translations.en.news[id]`.
 - Hero: редактируй `translations.*.subjectContent[subject]`.
 - Фон: начни с `body[data-subject="..."]`, затем правь `.shader-bg`, `.shader-layer-a`, `.shader-layer-b`.
+- SSR/auth: начинай с `pages/index.jsx`, затем проверяй, как `app.js` читает `window.__CODECALENDAR_INITIAL_STATE__`.
+- Разметка UI: меняй `index.html`, потому что SSR-страница читает body именно оттуда.
 - После правок проверь категорию, дату, источник, light/dark и запусти проверки.
 
 ## Проверки
+
+Базовый набор:
+
+```powershell
+$env:PATH = "$env:USERPROFILE\.codex-tools\node-v22;$env:PATH"
+npm test
+node --check app.js
+node --check next.config.js
+npm run build
+npm audit --audit-level=moderate
+```
 
 Синтаксис:
 
@@ -191,12 +269,14 @@ console.log(duplicates.length ? `Duplicate event ids: ${[...new Set(duplicates)]
 
 ## Git И Заметки
 
-- Проект статический, сборка не нужна.
-- Для просмотра открыть `index.html`.
+- Проект больше не чисто статический: основная разработка идёт через Next.js.
+- Для просмотра запускай `npm run dev`, обычно `http://localhost:3000`.
+- Старый `index.html` всё ещё важен как шаблон разметки.
 - Перед push проверь `git status --short --branch`.
 - Если ветка отстаёт от `origin/main`, сначала `git pull --rebase`.
 - Быстрое сохранение: `.\save.ps1 "Сообщение коммита"`.
 - Маркер «сегодня» жёстко задан как `2026-07-03` в `renderCalendar()`.
 - `cc-registered` общий, но счётчик показывает регистрации только текущего предмета.
 - `cc-lang`, `cc-theme`, `cc-subject` сохраняют язык, тему и предмет.
-- Если Playwright не установлен, минимум запускай `node --check app.js` и проверки данных.
+- `.vercel/` не коммитить.
+- Если Playwright не установлен, минимум запускай `npm test`, `node --check app.js`, `npm run build` и проверки данных.
