@@ -12,7 +12,7 @@ export default function Home({ appMarkup, initialState }) {
     window.__CODECALENDAR_SUPABASE_CLIENT__ = createBrowserClient(supabaseUrl, supabaseAnonKey);
     if (!window.__CODECALENDAR_APP_LOADED__) {
       window.__CODECALENDAR_APP_LOADED__ = true;
-      import("../app.js");
+      import("../data/calendar-data.js").then(() => import("../app.js"));
     }
   }, [initialState]);
 

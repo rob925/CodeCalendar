@@ -3,7 +3,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node tests/auth-session.test.js && node tests/auth-email.test.js && node tests/auth-utils.test.js && node tests/next-ssr.test.js"
+    "test": "node tests/calendar-data.test.js && node tests/auth-session.test.js && node tests/auth-email.test.js && node tests/auth-utils.test.js && node tests/next-ssr.test.js"
   },
   "dependencies": {
     "@supabase/ssr": "0.8.0",
