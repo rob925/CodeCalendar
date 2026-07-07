@@ -1311,7 +1311,7 @@ body.is-calendar-expanded .calendar-close-button {
 
   .topbar {
     position: static;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
     justify-content: space-between;
     gap: 8px;
@@ -1345,7 +1345,7 @@ body.is-calendar-expanded .calendar-close-button {
   }
 
   .brand {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     min-width: 0;
     gap: 9px;
   }
