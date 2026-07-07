@@ -131,6 +131,9 @@ test.describe("CodeCalendar e2e", () => {
     await bootApp(page, { width: 1440, height: 1000 });
 
     const normalDesktopBox = await page.locator(".calendar-wrap").boundingBox();
+    const expandButtonBox = await page.locator("#expandCalendar").boundingBox();
+    expect(expandButtonBox.x).toBeGreaterThan(normalDesktopBox.x + normalDesktopBox.width - 70);
+    expect(expandButtonBox.y).toBeLessThan(normalDesktopBox.y + 70);
 
     await page.locator("#expandCalendar").click();
     await expect(page.locator("body")).toHaveClass(/is-calendar-expanded/);
