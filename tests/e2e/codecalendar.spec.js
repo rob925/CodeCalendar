@@ -127,6 +127,56 @@ test.describe("CodeCalendar e2e", () => {
     expect(dialogBox.y + dialogBox.height).toBeLessThanOrEqual(844);
   });
 
+  test("calendar expands proportionally and closes from the blurred backdrop", async ({ page }) => {
+    await bootApp(page, { width: 1440, height: 1000 });
+
+    const normalDesktopBox = await page.locator(".calendar-wrap").boundingBox();
+
+    await page.locator("#expandCalendar").click();
+    await expect(page.locator("body")).toHaveClass(/is-calendar-expanded/);
+
+    const expandedDesktopBox = await page.locator(".calendar-wrap").boundingBox();
+    expect(expandedDesktopBox.width).toBeGreaterThan(normalDesktopBox.width + 180);
+    expect(expandedDesktopBox.width).toBeLessThan(1320);
+    expect(expandedDesktopBox.height).toBeGreaterThan(720);
+    expect(expandedDesktopBox.x).toBeGreaterThan(40);
+    expect(expandedDesktopBox.y).toBeGreaterThan(30);
+
+    const closeButtonBox = await page.locator("#collapseCalendar").boundingBox();
+    expect(closeButtonBox.x).toBeGreaterThan(expandedDesktopBox.x + expandedDesktopBox.width - 70);
+    expect(closeButtonBox.y).toBeLessThan(expandedDesktopBox.y + 60);
+
+    await page.locator("#calendarGrid .event-chip").first().click();
+    await expect(page.locator("#eventDialog")).toBeVisible();
+    await page.mouse.click(20, 20);
+    await expect(page.locator("#eventDialog")).not.toBeVisible();
+    await expect(page.locator("body")).toHaveClass(/is-calendar-expanded/);
+
+    await page.locator("#collapseCalendar").click();
+    await expect(page.locator("body")).not.toHaveClass(/is-calendar-expanded/);
+  });
+
+  test("expanded mobile calendar shows readable event chips", async ({ page }) => {
+    await bootApp(page, { width: 390, height: 844 });
+
+    const initialChipBox = await page.locator("#calendarGrid .event-chip").first().boundingBox();
+    expect(initialChipBox.width).toBeLessThanOrEqual(16);
+
+    await page.locator("#expandCalendar").click();
+    await expect(page.locator("body")).toHaveClass(/is-calendar-expanded/);
+
+    const calendarBox = await page.locator(".calendar-wrap").boundingBox();
+    expect(calendarBox.width).toBeGreaterThan(350);
+    expect(calendarBox.height).toBeGreaterThan(520);
+    expect(calendarBox.x).toBeGreaterThanOrEqual(10);
+    expect(calendarBox.y).toBeGreaterThanOrEqual(10);
+
+    const expandedChipBox = await page.locator("#calendarGrid .event-chip").first().boundingBox();
+    expect(expandedChipBox.width).toBeGreaterThan(70);
+    expect(expandedChipBox.height).toBeGreaterThan(32);
+    await expect(page.locator("#calendarGrid .event-chip").first().locator("strong")).toBeVisible();
+  });
+
   test("subject, language, and theme switches update visible app state", async ({ page }) => {
     await bootApp(page, { width: 1280, height: 900 });
 

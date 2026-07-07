@@ -308,6 +308,7 @@ body[data-subject="math"] .shader-grid {
 
 .toolbar,
 .filters,
+.filter-actions,
 .month-controls,
 .dialog-actions,
 .dialog-meta,
@@ -474,6 +475,19 @@ body[data-subject="math"] .shader-grid {
   justify-content: flex-end;
 }
 
+.filter-actions {
+  min-width: 0;
+  justify-content: flex-end;
+}
+
+.expand-calendar-button {
+  flex: 0 0 auto;
+}
+
+.calendar-close-button {
+  display: none;
+}
+
 .filter-chip {
   display: inline-flex;
   align-items: center;
@@ -497,6 +511,61 @@ body[data-subject="math"] .shader-grid {
   grid-template-columns: minmax(0, 1fr) 390px;
   align-items: start;
   gap: 18px;
+}
+
+body.is-calendar-expanded {
+  --expanded-calendar-width: min(1240px, calc(100vw - 96px));
+  --expanded-calendar-height: min(900px, calc(100vh - 88px));
+  --expanded-calendar-top: max(44px, calc((100vh - var(--expanded-calendar-height)) / 2));
+  overflow: hidden;
+}
+
+body.is-calendar-expanded .app-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(247, 245, 239, 0.36);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+}
+
+[data-theme="dark"].is-calendar-expanded .app-shell::after {
+  background: rgba(28, 24, 43, 0.46);
+}
+
+body.is-calendar-expanded .calendar-wrap {
+  position: fixed;
+  top: var(--expanded-calendar-top);
+  left: 50%;
+  z-index: 30;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: var(--expanded-calendar-width);
+  height: var(--expanded-calendar-height);
+  transform: translateX(-50%);
+  box-shadow: 0 28px 70px rgba(30, 30, 30, 0.24);
+}
+
+body.is-calendar-expanded .calendar-grid {
+  min-height: 0;
+}
+
+body.is-calendar-expanded .calendar-cell {
+  min-height: 0;
+}
+
+body.is-calendar-expanded .expand-calendar-button {
+  display: none;
+}
+
+body.is-calendar-expanded .calendar-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: grid;
+  box-shadow: 0 16px 32px rgba(30, 30, 30, 0.18);
 }
 
 .calendar-column {
@@ -1096,6 +1165,12 @@ body[data-subject="math"] .shader-grid {
     padding-bottom: 24px;
   }
 
+  body.is-calendar-expanded {
+    --expanded-calendar-width: calc(100vw - 24px);
+    --expanded-calendar-height: calc(100vh - 24px);
+    --expanded-calendar-top: 12px;
+  }
+
   .topbar,
   .control-band {
     align-items: stretch;
@@ -1103,7 +1178,8 @@ body[data-subject="math"] .shader-grid {
   }
 
   .toolbar,
-  .filters {
+  .filters,
+  .filter-actions {
     justify-content: space-between;
   }
 
@@ -1124,6 +1200,10 @@ body[data-subject="math"] .shader-grid {
     overflow-x: auto;
     padding-bottom: 2px;
     scrollbar-width: none;
+  }
+
+  .filter-actions {
+    width: 100%;
   }
 
   .filters::-webkit-scrollbar {
@@ -1455,6 +1535,64 @@ body[data-subject="math"] .shader-grid {
     height: 1px;
     overflow: hidden;
     clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  body.is-calendar-expanded .calendar-grid {
+    grid-auto-rows: minmax(0, 1fr);
+  }
+
+  body.is-calendar-expanded .calendar-cell {
+    min-height: 0;
+    padding: 4px;
+  }
+
+  body.is-calendar-expanded .day-events {
+    display: grid;
+    justify-content: stretch;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  body.is-calendar-expanded .event-chip {
+    width: 100%;
+    height: auto;
+    min-height: 34px;
+    padding: 6px;
+    border: 1px solid transparent;
+    border-left: 4px solid var(--event-color);
+    border-radius: 7px;
+    background: var(--surface-solid);
+    box-shadow: 0 8px 14px rgba(20, 20, 20, 0.08);
+  }
+
+  body.is-calendar-expanded .event-chip.is-registered {
+    outline: 0;
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--event-color), transparent 82%), transparent),
+      var(--surface-solid);
+  }
+
+  body.is-calendar-expanded .event-chip strong,
+  body.is-calendar-expanded .event-chip span {
+    position: static;
+    display: block;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    clip: auto;
+    text-overflow: ellipsis;
+  }
+
+  body.is-calendar-expanded .event-chip strong {
+    font-size: 10px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  body.is-calendar-expanded .event-chip span {
+    margin-top: 2px;
+    font-size: 9px;
     white-space: nowrap;
   }
 

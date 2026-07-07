@@ -72,6 +72,7 @@ const state = {
   subject: initialSubject,
   month: new Date(2026, 6, 1),
   activeCategory: "all",
+  calendarExpanded: false,
   registeredOnly: false,
   registered: new Set(initialServerState.user && initialRegisteredEvents ? initialRegisteredEvents : JSON.parse(localStorage.getItem("cc-registered") || "[]")),
   activeEventId: null,
@@ -103,6 +104,8 @@ const els = {
   html: document.documentElement,
   subjectSwitcher: document.getElementById("subjectSwitcher"),
   filters: document.getElementById("filters"),
+  expandCalendar: document.getElementById("expandCalendar"),
+  collapseCalendar: document.getElementById("collapseCalendar"),
   weekdayRow: document.getElementById("weekdayRow"),
   calendarGrid: document.getElementById("calendarGrid"),
   calendarColumn: document.querySelector(".calendar-column"),
@@ -684,12 +687,32 @@ function scheduleLayoutSync() {
 function renderTheme() {
   document.body.dataset.theme = state.theme;
   document.body.dataset.subject = state.subject;
+  document.body.classList.toggle("is-calendar-expanded", state.calendarExpanded);
   els.themeIcon.textContent = state.theme === "dark" ? "☼" : "☾";
+}
+
+function renderCalendarExpansion() {
+  const label = t(state.calendarExpanded ? "collapseCalendar" : "expandCalendar");
+  els.expandCalendar.setAttribute("aria-label", label);
+  els.expandCalendar.setAttribute("aria-expanded", String(state.calendarExpanded));
+  els.expandCalendar.title = label;
+  els.expandCalendar.textContent = state.calendarExpanded ? "×" : "⛶";
+  els.collapseCalendar.setAttribute("aria-label", t("collapseCalendar"));
+  els.collapseCalendar.title = t("collapseCalendar");
+}
+
+function closeExpandedCalendar() {
+  if (!state.calendarExpanded) return;
+  state.calendarExpanded = false;
+  renderTheme();
+  renderCalendarExpansion();
+  scheduleLayoutSync();
 }
 
 function render() {
   renderStaticText();
   renderTheme();
+  renderCalendarExpansion();
   renderFilters();
   renderWeekdays();
   renderCalendar();
@@ -933,6 +956,21 @@ els.filters.addEventListener("click", (event) => {
   renderEventList();
   renderStats();
   scheduleLayoutSync();
+});
+
+els.expandCalendar.addEventListener("click", () => {
+  state.calendarExpanded = !state.calendarExpanded;
+  renderTheme();
+  renderCalendarExpansion();
+  scheduleLayoutSync();
+});
+
+els.collapseCalendar.addEventListener("click", closeExpandedCalendar);
+
+document.addEventListener("click", (event) => {
+  if (!state.calendarExpanded) return;
+  if (event.target.closest(".calendar-wrap") || event.target.closest("#expandCalendar") || event.target.closest(".event-dialog")) return;
+  closeExpandedCalendar();
 });
 
 document.querySelectorAll("[data-lang]").forEach((button) => {

@@ -85,12 +85,16 @@
             <button class="icon-button" id="nextMonth" type="button" aria-label="Next month" title="Next month">›</button>
           </div>
 
-          <div class="filters" id="filters" aria-label="Event categories"></div>
+          <div class="filter-actions">
+            <div class="filters" id="filters" aria-label="Event categories"></div>
+            <button class="icon-button expand-calendar-button" id="expandCalendar" type="button" aria-label="Expand calendar" title="Expand calendar">⛶</button>
+          </div>
         </section>
 
         <section class="workspace">
           <div class="calendar-column">
             <div class="calendar-wrap">
+              <button class="icon-button calendar-close-button" id="collapseCalendar" type="button" aria-label="Collapse calendar" title="Collapse calendar">×</button>
               <div class="weekday-row" id="weekdayRow"></div>
               <div class="calendar-grid" id="calendarGrid" aria-label="Event calendar"></div>
             </div>
